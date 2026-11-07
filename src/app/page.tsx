@@ -27,6 +27,13 @@ export default function Home() {
         </Link>
       </Card>
       <Card className="p-5">
+        <h2 className="font-semibold">Adjudicate a position</h2>
+        <p className="mb-4 mt-1 text-sm text-text-2">No game needed. Place units for any powers, give their orders, and see what happens and why.</p>
+        <Link href="/adjudicate" className="block">
+          <Button className="w-full">Open the adjudicator</Button>
+        </Link>
+      </Card>
+      <Card className="p-5">
         <h2 className="font-semibold">Watch a game</h2>
         <p className="mb-3 mt-1 text-sm text-text-2">Enter a game code to see the board. To play, scan the QR code the game creator shows you.</p>
         <form
