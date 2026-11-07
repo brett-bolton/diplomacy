@@ -62,11 +62,11 @@ export function PhaseHeader({
 }
 
 export function CenterCounter({ view, compact = false }: { view: GameView; compact?: boolean }) {
-  const goal = view.game.playerCount === 2 ? 24 : 18
+  const twoPlayer = view.game.playerCount === 2
+  const goal = twoPlayer ? 24 : 18
   const open = view.game.status === "active"
   const rows = [...view.powers]
   rows.sort((a, b) => b.supplyCenters - a.supplyCenters || a.power.localeCompare(b.power))
-  const leader = rows[0]?.supplyCenters ?? 0
 
   // Multi-power games: group by player.
   const multi = view.participants.some((p) => p.powers.length > 1)
@@ -79,54 +79,49 @@ export function CenterCounter({ view, compact = false }: { view: GameView; compa
     : [{ name: "", powers: rows }]
 
   return (
-    <div className="space-y-2" aria-label="Supply centers">
+    <section className="rounded-2xl border border-line bg-surface px-3 py-2" aria-label="Supply centers">
+      <div className="flex items-baseline justify-between text-xs text-text-3">
+        <span>Supply centers</span>
+        <span>
+          {goal} to win{twoPlayer ? " (per player)" : ""}
+        </span>
+      </div>
       {groups.map((g) => (
         <div key={g.name || "all"}>
           {g.name ? (
-            <p className="mb-1 text-xs text-text-2">
+            <p className="mt-1 text-xs font-medium text-text-2">
               {g.name} · {g.powers.reduce((s, p) => s + p.supplyCenters, 0)}
-              {view.game.playerCount === 2 ? ` / ${goal}` : ""} centers
+              {twoPlayer ? ` / ${goal}` : ""}
             </p>
           ) : null}
-          <div className={`grid gap-1.5 ${compact ? "grid-cols-4 sm:grid-cols-7" : "grid-cols-2 sm:grid-cols-4"}`}>
+          <ul className={`grid gap-x-4 ${compact ? "grid-cols-4 sm:grid-cols-7" : "grid-cols-2 sm:grid-cols-4"}`}>
             {g.powers.map((p) => {
               const c = POWER_COLORS[p.power]
-              const isLeader = p.supplyCenters === leader && leader > 0 && !p.eliminated
+              const who = p.eliminated ? "out" : p.unplayed ? "unplayed" : (p.playerName ?? "")
+              const mark = open && p.required ? (p.submitted ? "✓" : "○") : ""
+              const label = `${powerName(p.power)}: ${p.supplyCenters} centers, ${p.units} units${who ? `, ${who}` : ""}${
+                p.adjustment ? `, ${p.adjustment > 0 ? `${p.adjustment} to build` : `${-p.adjustment} to disband`}` : ""
+              }${mark ? (p.submitted ? ", submitted" : ", not submitted yet") : ""}`
               return (
-                <div
-                  key={p.power}
-                  className={`rounded-xl border bg-surface px-2.5 py-1.5 ${isLeader ? "border-line-strong" : "border-line"} ${p.eliminated ? "opacity-50" : ""}`}
-                >
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-3 w-3 shrink-0 rounded-full border" style={{ background: c.fill, borderColor: c.stroke }} aria-hidden />
-                    <span className="truncate text-xs font-medium">{compact ? p.power[0] + p.power.slice(1).toLowerCase() : powerName(p.power)}</span>
-                    {open && p.required ? (
-                      <span className={`ml-auto text-xs ${p.submitted ? "text-success" : "text-text-3"}`} title={p.submitted ? "Submitted" : "Not submitted yet"}>
-                        {p.submitted ? "✓" : "○"}
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-0.5 text-base font-semibold tabular-nums">
-                    {p.supplyCenters}
-                    {view.game.playerCount === 2 ? "" : <span className="text-xs font-normal text-text-3"> / {goal}</span>}
+                <li key={p.power} className={`flex h-7 min-w-0 items-center gap-1.5 text-sm ${p.eliminated ? "opacity-40" : ""}`} title={label} aria-label={label}>
+                  <span className="h-2.5 w-2.5 shrink-0 rounded-full border" style={{ background: c.fill, borderColor: c.stroke }} aria-hidden />
+                  <span className={`shrink-0 font-medium ${p.eliminated ? "line-through" : ""}`}>{compact ? p.power[0] + p.power.slice(1).toLowerCase() : powerName(p.power)}</span>
+                  {!compact && who ? <span className="min-w-0 truncate text-xs text-text-3">{who}</span> : null}
+                  <span className="ml-auto flex shrink-0 items-center gap-1" aria-hidden>
                     {p.adjustment ? (
-                      <span className={`ml-1.5 text-xs font-medium ${p.adjustment > 0 ? "text-success" : "text-danger"}`}>
-                        {p.adjustment > 0 ? `+${p.adjustment} build${p.adjustment > 1 ? "s" : ""}` : `−${-p.adjustment} disband`}
+                      <span className={`text-xs font-medium ${p.adjustment > 0 ? "text-success" : "text-danger"}`}>
+                        {p.adjustment > 0 ? `+${p.adjustment}` : `−${-p.adjustment}`}
                       </span>
                     ) : null}
-                  </p>
-                  {!compact ? (
-                    <p className="truncate text-xs text-text-3">
-                      {p.eliminated ? "Eliminated" : p.unplayed ? "Unplayed" : (p.playerName ?? "")}
-                      {!p.eliminated ? ` · ${p.units} unit${p.units === 1 ? "" : "s"}` : ""}
-                    </p>
-                  ) : null}
-                </div>
+                    <span className="font-semibold tabular-nums">{p.supplyCenters}</span>
+                    {mark ? <span className={`w-3 text-center text-xs ${p.submitted ? "text-success" : "text-text-3"}`}>{mark}</span> : null}
+                  </span>
+                </li>
               )
             })}
-          </div>
+          </ul>
         </div>
       ))}
-    </div>
+    </section>
   )
 }
