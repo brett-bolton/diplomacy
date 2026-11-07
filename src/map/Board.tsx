@@ -28,8 +28,6 @@ export interface BoardProps {
   orders?: DrawnOrder[]
   highlight?: { selectable?: string[]; targets?: string[]; selected?: string }
   onProvinceClick?: (province: ProvinceId) => void
-  /** Provinces to frame when the board first appears (e.g. the player's units). */
-  focus?: ProvinceId[]
   /** Show each power's supply-center count under the map (default true). */
   showCounts?: boolean
   className?: string
@@ -48,21 +46,6 @@ function clampBox(b: Box): Box {
   return { w, h, x: Math.min(FULL.w - w, Math.max(0, b.x)), y: Math.min(FULL.h - h, Math.max(0, b.y)) }
 }
 
-function boxAround(provinces: ProvinceId[]): Box {
-  if (!provinces.length) return FULL
-  const pts = provinces.map((p) => anchor(p))
-  const xs = pts.map((p) => p.x)
-  const ys = pts.map((p) => p.y)
-  const pad = 45
-  let w = Math.max(...xs) - Math.min(...xs) + pad * 2
-  let h = Math.max(...ys) - Math.min(...ys) + pad * 2
-  if (w / h < FULL.w / FULL.h) w = (h * FULL.w) / FULL.h
-  else h = (w * FULL.h) / FULL.w
-  const cx = (Math.max(...xs) + Math.min(...xs)) / 2
-  const cy = (Math.max(...ys) + Math.min(...ys)) / 2
-  return clampBox({ x: cx - w / 2, y: cy - h / 2, w, h })
-}
-
 function shorten(a: { x: number; y: number }, b: { x: number; y: number }, by: number) {
   const dx = b.x - a.x
   const dy = b.y - a.y
@@ -77,8 +60,9 @@ function arrowHead(from: { x: number; y: number }, tip: { x: number; y: number }
   return `${tip.x},${tip.y} ${tip.x + Math.cos(a1) * size},${tip.y + Math.sin(a1) * size} ${tip.x + Math.cos(a2) * size},${tip.y + Math.sin(a2) * size}`
 }
 
-export function Board({ units, owners, dislodged = [], orders = [], highlight, onProvinceClick, focus, showCounts = true, className = "" }: BoardProps) {
-  const [box, setBox] = useState<Box>(() => (focus?.length ? boxAround(focus) : FULL))
+export function Board({ units, owners, dislodged = [], orders = [], highlight, onProvinceClick, showCounts = true, className = "" }: BoardProps) {
+  // Always open on the whole map; players zoom in themselves.
+  const [box, setBox] = useState<Box>(FULL)
   const svgRef = useRef<SVGSVGElement>(null)
   const pointers = useRef(new Map<number, { x: number; y: number }>())
   const gesture = useRef<{ box: Box; moved: number; startDist?: number; startMid?: { x: number; y: number } } | null>(null)
