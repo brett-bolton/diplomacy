@@ -235,7 +235,7 @@ function OrderList({ view, drafts, powers }: { view: GameView; drafts: Drafts; p
 // ---------------------------------------------------------------------------
 // Movement
 
-type SheetStep =
+export type SheetStep =
   | { kind: "action" }
   | { kind: "move" }
   | { kind: "via"; to: Location }
@@ -375,12 +375,12 @@ function MovementEditor({ view, power, orders, onChange }: { view: GameView; pow
   )
 }
 
-function reachText(opt: UnitOrderOptions): string {
+export function reachText(opt: UnitOrderOptions): string {
   const names = [...new Set(opt.moves.map((m) => abbr(m.to.province)))]
   return names.length ? names.join(", ") : "nowhere"
 }
 
-function UnitSheet({
+export function UnitSheet({
   unit,
   opt,
   units,

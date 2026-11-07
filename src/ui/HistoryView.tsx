@@ -89,13 +89,17 @@ export function HistoryView({ view, code }: { view: GameView; code: string }) {
         )}
       </Card>
 
-      {entry.record ? <Results entry={entry} /> : <Card className="p-4 text-sm text-text-2">Orders for this phase are hidden until everyone has submitted.</Card>}
+      {entry.record ? <Results record={entry.record} units={entry.state.units} year={entry.state.year} /> : <Card className="p-4 text-sm text-text-2">Orders for this phase are hidden until everyone has submitted.</Card>}
     </div>
   )
 }
 
 function drawnFor(entry: HistoryEntry): DrawnOrder[] {
-  const r = entry.record
+  return drawnForRecord(entry.record)
+}
+
+/** Arrows for every order (and retreat) in an adjudicated phase, marked by success. */
+export function drawnForRecord(r: HistoryEntry["record"]): DrawnOrder[] {
   if (!r) return []
   const out: DrawnOrder[] = []
   for (const o of r.movement?.outcomes ?? []) {
@@ -126,10 +130,10 @@ function drawnFor(entry: HistoryEntry): DrawnOrder[] {
   return out
 }
 
-function Results({ entry }: { entry: HistoryEntry }) {
-  const r = entry.record!
+/** Per-power list of every order's result, each expandable to its explanation. */
+export function Results({ record, units, year }: { record: NonNullable<HistoryEntry["record"]>; units: Unit[]; year: number }) {
+  const r = record
   const [openKey, setOpenKey] = useState<string | null>(null)
-  const units: Unit[] = entry.state.units
   const byPower = useMemo(() => {
     const m = new Map<Power, { key: string; title: string; verdict: string; success: boolean; reasons: string[] }[]>()
     const add = (power: Power, row: { key: string; title: string; verdict: string; success: boolean; reasons: string[] }) => {
@@ -139,7 +143,7 @@ function Results({ entry }: { entry: HistoryEntry }) {
       for (const o of r.movement.outcomes) {
         const ex: Explanation | undefined = r.explanations[o.unit.location.province]
         if (!ex) continue
-        add(o.unit.power, { key: o.unit.location.province, title: ex.notation, verdict: ex.verdict, success: ex.success, reasons: ex.reasons })
+        add(o.unit.power, { key: o.unit.location.province, title: ex.notation, verdict: ex.verdict, success: ex.success && !o.dislodgedBy, reasons: ex.reasons })
       }
     }
     for (const rr of r.retreats ?? []) {
@@ -179,7 +183,7 @@ function Results({ entry }: { entry: HistoryEntry }) {
 
   return (
     <div className="space-y-3">
-      {r.coinFlip ? <Card className="p-4 text-[15px]">Coin flip: seat {r.coinFlip.italyToSeat + 1} controls Italy from Spring {entry.state.year + 1}.</Card> : null}
+      {r.coinFlip ? <Card className="p-4 text-[15px]">Coin flip: seat {r.coinFlip.italyToSeat + 1} controls Italy from Spring {year + 1}.</Card> : null}
       {r.captured?.length ? (
         <Card className="p-4">
           <p className="mb-1 text-sm font-medium">Supply centers changed hands</p>
