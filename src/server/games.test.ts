@@ -288,3 +288,113 @@ describe("draws", () => {
   })
 })
 
+
+describe("Winter builds (reinforcement round)", () => {
+  /**
+   * 7-player game from a custom Fall 1901 position: only Russia has units.
+   * Its St Petersburg fleet is out in the Gulf of Bothnia and its army takes
+   * Rumania this Fall, so Russia gets one build with Moscow (inland) and
+   * St Petersburg (two coasts) empty.
+   */
+  async function russiaWithOneBuild() {
+    const parts = SEVEN.map((name, seat) => ({ name, seat, isGameMaster: seat === 0 }))
+    const { code, creatorToken } = await createGame(db, {
+      name: "Builds",
+      playerCount: 7,
+      participants: parts,
+      custom: {
+        year: 1901,
+        season: "fall",
+        units: [
+          { power: "RUS", type: "A", location: { province: "war" } },
+          { power: "RUS", type: "F", location: { province: "sev" } },
+          { power: "RUS", type: "F", location: { province: "bot" } },
+          { power: "RUS", type: "A", location: { province: "rum" } },
+        ],
+        owners: { mos: "RUS", stp: "RUS", war: "RUS", sev: "RUS" },
+      },
+    })
+    const creator = { creatorToken }
+    const v = await getView(db, code, creator)
+    const t = await issueJoinToken(db, code, creator, v.participants.find((p) => p.name === "Russia")!.id, false)
+    const russia = { deviceToken: (await joinGame(db, code, t)).deviceToken }
+    await submitOrders(db, code, russia, "fall") // all hold; Russia keeps Rumania
+    const winter = await getView(db, code, russia)
+    return { code, russia, winter, creator }
+  }
+
+  it("gives Russia one build after taking Rumania", async () => {
+    const { winter } = await russiaWithOneBuild()
+    expect(winter.phase.label).toBe("Winter 1901 · Builds")
+    const rus = winter.powers.find((p) => p.power === "RUS")!
+    expect(rus.supplyCenters).toBe(5)
+    expect(rus.adjustment).toBe(1)
+    expect(rus.required).toBe(true)
+  })
+
+  it("rejects impossible builds", async () => {
+    const { code, russia } = await russiaWithOneBuild()
+    const bad = [
+      { kind: "build", unitType: "F", at: { province: "mos" } }, // fleet inland
+      { kind: "build", unitType: "F", at: { province: "stp" } }, // coast not chosen
+      { kind: "build", unitType: "A", at: { province: "war" } }, // occupied
+      { kind: "build", unitType: "A", at: { province: "rum" } }, // not a home center
+    ] as const
+    for (const o of bad) await expectError(saveDraft(db, code, russia, "RUS", [o]), 400)
+    await expectError(
+      saveDraft(db, code, russia, "RUS", [
+        { kind: "build", unitType: "A", at: { province: "mos" } },
+        { kind: "build", unitType: "F", at: { province: "stp", coast: "nc" } },
+      ]),
+      400,
+      /at most 1/,
+    )
+  })
+
+  it("builds a fleet on the chosen coast of St Petersburg", async () => {
+    const { code, russia } = await russiaWithOneBuild()
+    await saveDraft(db, code, russia, "RUS", [{ kind: "build", unitType: "F", at: { province: "stp", coast: "nc" } }])
+    // Changing your mind before locking in: switch to the south coast.
+    await saveDraft(db, code, russia, "RUS", [{ kind: "build", unitType: "F", at: { province: "stp", coast: "sc" } }])
+    await submitOrders(db, code, russia, "winter")
+    const spring = await getView(db, code, russia)
+    expect(spring.phase.label).toBe("Spring 1902 · Orders")
+    expect(spring.state.units).toContainEqual({ power: "RUS", type: "F", location: { province: "stp", coast: "sc" } })
+    expect(spring.state.units.filter((u) => u.power === "RUS")).toHaveLength(5)
+    expect(spring.checklist?.steps.map((s) => s.text)).toEqual(["Place a new Russian fleet in StP/sc"])
+    const hist = await getHistory(db, code, russia)
+    const winter = hist.find((h) => h.label === "Winter 1901 · Builds")!
+    expect(winter.record?.adjustments?.built).toEqual([{ power: "RUS", type: "F", location: { province: "stp", coast: "sc" } }])
+  })
+
+  it("builds an army in an inland home center", async () => {
+    const { code, russia } = await russiaWithOneBuild()
+    await saveDraft(db, code, russia, "RUS", [{ kind: "build", unitType: "A", at: { province: "mos" } }])
+    await submitOrders(db, code, russia, "winter")
+    const spring = await getView(db, code, russia)
+    expect(spring.state.units).toContainEqual({ power: "RUS", type: "A", location: { province: "mos" } })
+  })
+
+  it("waives the build when none is chosen", async () => {
+    const { code, russia } = await russiaWithOneBuild()
+    await submitOrders(db, code, russia, "winter")
+    const spring = await getView(db, code, russia)
+    expect(spring.phase.label).toBe("Spring 1902 · Orders")
+    expect(spring.state.units.filter((u) => u.power === "RUS")).toHaveLength(4)
+  })
+
+  it("ignores a build that wasn't locked in when the timer runs out", async () => {
+    const { code, russia, creator } = await russiaWithOneBuild()
+    // Austria's player is the game master in this game.
+    const v = await getView(db, code, creator)
+    const t = await issueJoinToken(db, code, creator, v.participants.find((p) => p.isGameMaster)!.id, false)
+    const gm = { deviceToken: (await joinGame(db, code, t)).deviceToken }
+    await saveDraft(db, code, russia, "RUS", [{ kind: "build", unitType: "F", at: { province: "stp", coast: "sc" } }])
+    await setTimer(db, code, gm, 5)
+    tick(5 * 60_000)
+    await expectError(saveDraft(db, code, russia, "RUS", []), 409, /Time's up/)
+    const spring = await getView(db, code, russia)
+    expect(spring.phase.label).toBe("Spring 1902 · Orders")
+    expect(spring.state.units.filter((u) => u.power === "RUS")).toHaveLength(4)
+  })
+})

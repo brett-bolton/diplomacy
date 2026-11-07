@@ -87,6 +87,7 @@ export function Choice({
   return (
     <button
       onClick={onClick}
+      aria-pressed={selected === undefined ? undefined : selected}
       className={`flex min-h-12 w-full items-center justify-between gap-3 rounded-xl border px-4 py-2 text-left transition ${
         selected ? "border-accent bg-accent-soft" : "border-line bg-surface hover:bg-surface-2"
       }`}
