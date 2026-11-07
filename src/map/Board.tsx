@@ -30,6 +30,8 @@ export interface BoardProps {
   onProvinceClick?: (province: ProvinceId) => void
   /** Provinces to frame when the board first appears (e.g. the player's units). */
   focus?: ProvinceId[]
+  /** Show each power's supply-center count under the map (default true). */
+  showCounts?: boolean
   className?: string
 }
 
@@ -75,7 +77,7 @@ function arrowHead(from: { x: number; y: number }, tip: { x: number; y: number }
   return `${tip.x},${tip.y} ${tip.x + Math.cos(a1) * size},${tip.y + Math.sin(a1) * size} ${tip.x + Math.cos(a2) * size},${tip.y + Math.sin(a2) * size}`
 }
 
-export function Board({ units, owners, dislodged = [], orders = [], highlight, onProvinceClick, focus, className = "" }: BoardProps) {
+export function Board({ units, owners, dislodged = [], orders = [], highlight, onProvinceClick, focus, showCounts = true, className = "" }: BoardProps) {
   const [box, setBox] = useState<Box>(() => (focus?.length ? boxAround(focus) : FULL))
   const svgRef = useRef<SVGSVGElement>(null)
   const pointers = useRef(new Map<number, { x: number; y: number }>())
@@ -263,8 +265,33 @@ export function Board({ units, owners, dislodged = [], orders = [], highlight, o
           </button>
         ) : null}
       </div>
+      {showCounts ? <CenterCounts owners={owners} /> : null}
       <p className="px-3 pb-2 pt-1 text-[10px] text-text-3">Map: Martin Asal, CC BY-SA 3.0 (Wikimedia Commons), adapted</p>
     </div>
+  )
+}
+
+const COUNT_ORDER: Power[] = ["AUS", "ENG", "FRA", "GER", "ITA", "RUS", "TUR"]
+const NAMES: Record<Power, string> = { AUS: "Austria", ENG: "England", FRA: "France", GER: "Germany", ITA: "Italy", RUS: "Russia", TUR: "Turkey" }
+
+/** Supply centers per power: just the color and the number, in a fixed order. */
+function CenterCounts({ owners }: { owners: Record<ProvinceId, Power> }) {
+  const counts = new Map<Power, number>()
+  for (const p of Object.values(owners)) counts.set(p, (counts.get(p) ?? 0) + 1)
+  const label = `Supply centers: ${COUNT_ORDER.map((p) => `${NAMES[p]} ${counts.get(p) ?? 0}`).join(", ")}`
+  return (
+    <ul className="flex items-center justify-between gap-1 border-t border-line px-3 py-2" aria-label={label} title={label}>
+      {COUNT_ORDER.map((p) => {
+        const n = counts.get(p) ?? 0
+        const c = POWER_COLORS[p]
+        return (
+          <li key={p} className={`flex items-center gap-1 ${n === 0 ? "opacity-40" : ""}`} aria-hidden>
+            <span className="h-3.5 w-3.5 shrink-0 rounded-full border ring-1 ring-line-strong" style={{ background: c.fill, borderColor: c.stroke }} />
+            <span className="text-sm font-semibold tabular-nums">{n}</span>
+          </li>
+        )
+      })}
+    </ul>
   )
 }
 
