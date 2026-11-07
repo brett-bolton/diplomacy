@@ -100,6 +100,22 @@ describe("physical moves checklist", () => {
     expect(checklist(winter.records[0]).map((s) => s.text)).toEqual(["Place a new French army in Par"])
   })
 
+  it("marks civil-disorder removals, even in a record read back from storage", () => {
+    // Russia: four centers, five units, all hold through Fall → one disband, none ordered.
+    let g = customGame(7, {
+      year: 1901,
+      season: "fall",
+      units: [u("RUS", "A", "war"), u("RUS", "F", "sev"), u("RUS", "F", "bot"), u("RUS", "A", "ukr"), u("RUS", "A", "lvn")],
+      owners: { mos: "RUS", stp: "RUS", war: "RUS", sev: "RUS" },
+    })
+    g = resolvePhase(g, new Map()).state
+    const winter = resolvePhase(g, new Map()).records[0]
+    const expected = ["Remove Russia's F Bot (removed by the civil-disorder rule)"]
+    expect(checklist(winter).map((s) => s.text)).toEqual(expected)
+    const stored = JSON.parse(JSON.stringify(winter)) as PhaseRecord
+    expect(checklist(stored).map((s) => s.text)).toEqual(expected)
+  })
+
   it("never lists marker steps after Spring", () => {
     const r = resolvePhase(newGame(7), new Map([["FRA", [{ kind: "move", unit: "par", to: { province: "bur" } }]]]))
     expect(checklist(r.records[0]).some((s) => s.kind === "marker")).toBe(false)
