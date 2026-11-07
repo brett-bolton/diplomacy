@@ -1,0 +1,1422 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`DATC v3.0 > 6.A.1 Moving to an area that is not a neighbour 1`] = `
+[
+  "F Nth - Pic: Illegal — treated as a hold. This order can't be carried out: the unit can't reach that province. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.2 Move army to sea 1`] = `
+[
+  "A Lvp - Iri: Illegal — treated as a hold. This order can't be carried out: armies can't enter sea spaces. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.3 Move fleet to land 1`] = `
+[
+  "F Kie - Mun: Illegal — treated as a hold. This order can't be carried out: fleets can't enter inland provinces. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.4 Move to own sector 1`] = `
+[
+  "F Kie - Kie: Illegal — treated as a hold. This order can't be carried out: a unit can't move to the province it's already in. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.5 Move to own sector with convoy 1`] = `
+[
+  "F Nth C A Yor - Yor: No effect. A Yor wasn't ordered to move to Yor by convoy.",
+  "A Yor - Yor: Illegal — treated as a hold — and dislodged. This order can't be carried out: a unit can't move to the province it's already in. The unit holds instead. Dislodged by F Lon.",
+  "A Lvp S A Yor - Yor: Illegal — treated as a hold. This order can't be carried out: the supported unit would be moving to the province it's already in. The unit holds instead.",
+  "F Lon - Yor: Succeeds. Attack strength 2 (F Lon + support from A Wal). A Yor holds with strength 1. 2 beats hold strength 1. A Yor is dislodged.",
+  "A Wal S F Lon - Yor: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.6 Ordering a unit of another country 1`] = `
+[
+  "F Lon H: Holds. ",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.7 Only armies can be convoyed 1`] = `
+[
+  "F Lon - Bel: Illegal — treated as a hold. This order can't be carried out: the unit can't reach that province. The unit holds instead.",
+  "F Nth C F Lon - Bel: Illegal — treated as a hold. This order can't be carried out: only armies can be convoyed. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.8 Support to hold yourself is not possible 1`] = `
+[
+  "A Ven - Tri: Succeeds. Attack strength 2 (A Ven + support from A Tyr). F Tri holds with strength 1. 2 beats hold strength 1. F Tri is dislodged.",
+  "A Tyr S A Ven - Tri: Support given. The support was not cut and counts.",
+  "F Tri S F Tri: Illegal — treated as a hold — and dislodged. This order can't be carried out: a unit can't support itself or a move into its own province. The unit holds instead. Dislodged by A Ven.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.9 Fleets must follow coast if not on sea 1`] = `
+[
+  "F Rom - Ven: Illegal — treated as a hold. This order can't be carried out: the unit can't reach that province. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.10 Support on unreachable destination not possible 1`] = `
+[
+  "A Ven H: Holds. ",
+  "F Rom S A Apu - Ven: Illegal — treated as a hold. This order can't be carried out: the unit can't reach that province. The unit holds instead.",
+  "A Apu - Ven: Fails — not strong enough. Attack strength 1. A Ven holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.11 Simple bounce 1`] = `
+[
+  "A Vie - Tyr: Bounced. Attack strength 1. A Ven also tried to enter Tyr with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "A Ven - Tyr: Bounced. Attack strength 1. A Vie also tried to enter Tyr with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.A.12 Bounce of three units 1`] = `
+[
+  "A Vie - Tyr: Bounced. Attack strength 1. A Mun also tried to enter Tyr with strength 1. A Ven also tried to enter Tyr with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "A Mun - Tyr: Bounced. Attack strength 1. A Vie also tried to enter Tyr with strength 1. A Ven also tried to enter Tyr with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "A Ven - Tyr: Bounced. Attack strength 1. A Vie also tried to enter Tyr with strength 1. A Mun also tried to enter Tyr with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.1 Moving with unspecified coast when coast is necessary 1`] = `
+[
+  "F Por - Spa: Illegal — treated as a hold. This order can't be carried out: the destination has two coasts and none was chosen. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.2 Moving with unspecified coast when coast is not necessary 1`] = `
+[
+  "F Gas - Spa/nc: Succeeds. Attack strength 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.3 Moving with wrong coast when coast is not necessary 1`] = `
+[
+  "F Gas - Spa/sc: Illegal — treated as a hold. This order can't be carried out: that coast can't be reached from here. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.4 Support to unreachable coast allowed 1`] = `
+[
+  "F Gas - Spa/nc: Succeeds. Attack strength 2 (F Gas + support from F Mar). F Wes also tried to enter Spa with strength 1. 2 beats every rival move into Spa.",
+  "F Mar S F Gas - Spa: Support given. The support was not cut and counts.",
+  "F Wes - Spa/sc: Fails — beaten by a stronger move. Attack strength 1. F Gas also tried to enter Spa with strength 2. 1 point of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.5 Support from unreachable coast not allowed 1`] = `
+[
+  "F Mar - Lyo: Fails — not strong enough. Attack strength 1. F Lyo holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "F Spa/nc S F Mar - Lyo: Illegal — treated as a hold. This order can't be carried out: the unit can't reach that province. The unit holds instead.",
+  "F Lyo H: Holds. ",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.6 Support can be cut with other coast 1`] = `
+[
+  "F Iri S F NAO - MAO: Support given. The support was not cut and counts.",
+  "F NAO - MAO: Succeeds. Attack strength 2 (F NAO + support from F Iri). F MAO holds with strength 1. 2 beats hold strength 1. F MAO is dislodged.",
+  "F Spa/nc S F MAO: Support cut. F Lyo attacked Spa, cutting the support.",
+  "F MAO H: Holds — but dislodged. Dislodged by F NAO.",
+  "F Lyo - Spa/sc: Fails — not strong enough. Attack strength 1. F Spa/nc holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.7 Supporting own unit with unspecified coast 1`] = `
+[
+  "F Por S F MAO - Spa: Support given. The support was not cut and counts.",
+  "F MAO - Spa/nc: Bounced. Attack strength 2 (F MAO + support from F Por). F Wes also tried to enter Spa with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F Lyo S F Wes - Spa: Support given. The support was not cut and counts.",
+  "F Wes - Spa/sc: Bounced. Attack strength 2 (F Wes + support from F Lyo). F MAO also tried to enter Spa with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.8 Supporting with unspecified coast when only one coast is possible 1`] = `
+[
+  "F Por S F Gas - Spa: Support given. The support was not cut and counts.",
+  "F Gas - Spa/nc: Bounced. Attack strength 2 (F Gas + support from F Por). F Wes also tried to enter Spa with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F Lyo S F Wes - Spa: Support given. The support was not cut and counts.",
+  "F Wes - Spa/sc: Bounced. Attack strength 2 (F Wes + support from F Lyo). F Gas also tried to enter Spa with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.9 Supporting with wrong coast 1`] = `
+[
+  "F Por S F MAO - Spa: No effect. F MAO wasn't ordered to move to Spa, so the support didn't apply.",
+  "F MAO - Spa/sc: Fails — beaten by a stronger move. Attack strength 1. F Wes also tried to enter Spa with strength 2. 1 point of attack isn't more than the rival's 2, so the move bounces.",
+  "F Lyo S F Wes - Spa: Support given. The support was not cut and counts.",
+  "F Wes - Spa/sc: Succeeds. Attack strength 2 (F Wes + support from F Lyo). F MAO also tried to enter Spa with strength 1. 2 beats every rival move into Spa.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.10 Unit ordered with wrong coast 1`] = `
+[
+  "F Spa/sc - Lyo: Succeeds. Attack strength 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.11 Coast cannot be ordered to change 1`] = `
+[
+  "F Spa/nc - Lyo: Illegal — treated as a hold. This order can't be carried out: the unit can't reach that province. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.12 Army movement with coastal specification 1`] = `
+[
+  "A Gas - Spa: Succeeds. Attack strength 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.13 Coastal crawl not allowed 1`] = `
+[
+  "F Bul/sc - Con: Fails — own unit in the way. Attack strength 0. Con holds a unit of the same power, which can't be dislodged by its own side.",
+  "F Con - Bul/ec: Fails — own unit in the way. Attack strength 0. Bul holds a unit of the same power, which can't be dislodged by its own side.",
+]
+`;
+
+exports[`DATC v3.0 > 6.B.15 Supporting foreign unit with unspecified coast 1`] = `
+[
+  "F Por S F MAO - Spa: Support given. The support was not cut and counts.",
+  "F MAO - Spa/nc: Bounced. Attack strength 2 (F MAO + support from F Por). F Wes also tried to enter Spa with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F Lyo S F Wes - Spa: Support given. The support was not cut and counts.",
+  "F Wes - Spa/sc: Bounced. Attack strength 2 (F Wes + support from F Lyo). F MAO also tried to enter Spa with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.C.1 Three army circular movement 1`] = `
+[
+  "F Ank - Con: Succeeds. Attack strength 1. A Con moved out, so Con was open. Part of a circular movement: all units in the circle move.",
+  "A Con - Smy: Succeeds. Attack strength 1. A Smy moved out, so Smy was open. Part of a circular movement: all units in the circle move.",
+  "A Smy - Ank: Succeeds. Attack strength 1. F Ank moved out, so Ank was open. Part of a circular movement: all units in the circle move.",
+]
+`;
+
+exports[`DATC v3.0 > 6.C.2 Three army circular movement with support 1`] = `
+[
+  "F Ank - Con: Succeeds. Attack strength 2 (F Ank + support from A Bul). A Con moved out, so Con was open. Part of a circular movement: all units in the circle move.",
+  "A Con - Smy: Succeeds. Attack strength 1. A Smy moved out, so Smy was open. Part of a circular movement: all units in the circle move.",
+  "A Smy - Ank: Succeeds. Attack strength 1. F Ank moved out, so Ank was open. Part of a circular movement: all units in the circle move.",
+  "A Bul S F Ank - Con: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.C.3 A disrupted three army circular movement 1`] = `
+[
+  "F Ank - Con: Fails — own unit in the way. Attack strength 0. Con holds a unit of the same power, which can't be dislodged by its own side. A Bul also tried to enter Con with strength 1.",
+  "A Con - Smy: Fails — own unit in the way. Attack strength 0. Smy holds a unit of the same power, which can't be dislodged by its own side.",
+  "A Smy - Ank: Fails — own unit in the way. Attack strength 0. Ank holds a unit of the same power, which can't be dislodged by its own side.",
+  "A Bul - Con: Fails — own unit in the way. Attack strength 0. Con holds a unit of the same power, which can't be dislodged by its own side. F Ank also tried to enter Con with strength 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.C.4 A circular movement with attacked convoy 1`] = `
+[
+  "A Tri - Ser: Succeeds. Attack strength 1. A Ser moved out, so Ser was open. Part of a circular movement: all units in the circle move.",
+  "A Ser - Bul: Succeeds. Attack strength 1. A Bul moved out, so Bul was open. Part of a circular movement: all units in the circle move.",
+  "A Bul - Tri: Succeeds. Convoyed via Aeg → Ion → Adr. Attack strength 1. A Tri moved out, so Tri was open. Part of a circular movement: all units in the circle move.",
+  "F Aeg C A Bul - Tri: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Ion C A Bul - Tri: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Adr C A Bul - Tri: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Nap - Ion: Fails — not strong enough. Attack strength 1. F Ion holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.C.5 A disrupted circular movement due to dislodged convoy 1`] = `
+[
+  "A Tri - Ser: Fails — own unit in the way. Attack strength 0. Ser holds a unit of the same power, which can't be dislodged by its own side.",
+  "A Ser - Bul: Fails — not strong enough. Attack strength 1. A Bul holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "A Bul - Tri: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: Aeg, Ion, Adr). It stays in Bul.",
+  "F Aeg C A Bul - Tri: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Ion C A Bul - Tri: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Nap.",
+  "F Adr C A Bul - Tri: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Nap - Ion: Succeeds. Attack strength 2 (F Nap + support from F Tun). F Ion holds with strength 1. 2 beats hold strength 1. F Ion is dislodged.",
+  "F Tun S F Nap - Ion: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.C.6 Two armies with two convoys 1`] = `
+[
+  "F Nth C A Lon - Bel: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Lon - Bel: Succeeds. Convoyed via Nth. Attack strength 1. A Bel moved out, so Bel was open. Part of a circular movement: all units in the circle move.",
+  "F ENG C A Bel - Lon: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Bel - Lon: Succeeds. Convoyed via ENG. Attack strength 1. A Lon moved out, so Lon was open. Part of a circular movement: all units in the circle move.",
+]
+`;
+
+exports[`DATC v3.0 > 6.C.7 Disrupted unit swap 1`] = `
+[
+  "F Nth C A Lon - Bel: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Lon - Bel: Fails — not strong enough. Convoyed via Nth. Attack strength 1. A Bel holds with strength 1. A Bur also tried to enter Bel with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "F ENG C A Bel - Lon: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Bel - Lon: Fails — not strong enough. Convoyed via ENG. Attack strength 1. A Lon holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "A Bur - Bel: Fails — own unit in the way. Attack strength 0. Bel holds a unit of the same power, which can't be dislodged by its own side. A Lon also tried to enter Bel with strength 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.C.8 No self dislodgement in disrupted circular movement 1`] = `
+[
+  "F Con - Bla: Fails — not strong enough. Attack strength 1. F Bla holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "A Bul - Con: Fails — own unit in the way. Attack strength 0 (A Bul + support from A Smy). Con holds a unit of the same power, which can't be dislodged by its own side.",
+  "A Smy S A Bul - Con: Support given. The support was not cut and counts.",
+  "F Bla - Bul/ec: Fails — not strong enough. Attack strength 1. A Bul holds with strength 1. A Ser also tried to enter Bul with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "A Ser - Bul: Fails — not strong enough. Attack strength 1. A Bul holds with strength 1. F Bla also tried to enter Bul with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.C.9 No help in dislodgement of own unit in disrupted circular movement 1`] = `
+[
+  "F Con - Bla: Fails — not strong enough. Attack strength 1. F Bla holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "A Smy S A Bul - Con: Support given. The support was not cut and counts.",
+  "F Bla - Bul/ec: Fails — not strong enough. Attack strength 1. A Bul holds with strength 1. A Ser also tried to enter Bul with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "A Ser - Bul: Fails — own unit in the way. Attack strength 0. Bul holds a unit of the same power, which can't be dislodged by its own side. F Bla also tried to enter Bul with strength 1.",
+  "A Bul - Con: Fails — not strong enough. Attack strength 1. F Con holds with strength 1. Support from A Smy doesn't count: a power can't help dislodge its own unit. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.1 Supported hold can prevent dislodgement 1`] = `
+[
+  "F Adr S A Tri - Ven: Support given. The support was not cut and counts.",
+  "A Tri - Ven: Fails — not strong enough. Attack strength 2 (A Tri + support from F Adr). A Ven holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "A Ven H: Holds. Hold strength 2 (with support from A Tyr).",
+  "A Tyr S A Ven: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.2 A move cuts support on hold 1`] = `
+[
+  "F Adr S A Tri - Ven: Support given. The support was not cut and counts.",
+  "A Tri - Ven: Succeeds. Attack strength 2 (A Tri + support from F Adr). A Ven holds with strength 1. 2 beats hold strength 1. A Ven is dislodged.",
+  "A Vie - Tyr: Fails — not strong enough. Attack strength 1. A Tyr holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "A Ven H: Holds — but dislodged. Dislodged by A Tri.",
+  "A Tyr S A Ven: Support cut. A Vie attacked Tyr, cutting the support.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.3 A move cuts support on move 1`] = `
+[
+  "F Adr S A Tri - Ven: Support cut. F Ion attacked Adr, cutting the support.",
+  "A Tri - Ven: Fails — not strong enough. Attack strength 1. A Ven holds with strength 1. Support from F Adr was cut by an attack from Ion. 1 point of attack isn't more than the hold strength of 1.",
+  "A Ven H: Holds. ",
+  "F Ion - Adr: Fails — not strong enough. Attack strength 1. F Adr holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.4 Support to hold on unit supporting a hold allowed 1`] = `
+[
+  "A Ber S F Kie: Support cut. A Pru attacked Ber, cutting the support.",
+  "F Kie S A Ber: Support given. The support was not cut and counts.",
+  "F Bal S A Pru - Ber: Support given. The support was not cut and counts.",
+  "A Pru - Ber: Fails — not strong enough. Attack strength 2 (A Pru + support from F Bal). A Ber holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.5 Support to hold on unit supporting a move allowed 1`] = `
+[
+  "A Ber S A Mun - Sil: Support cut. A Pru attacked Ber, cutting the support.",
+  "F Kie S A Ber: Support given. The support was not cut and counts.",
+  "A Mun - Sil: Succeeds. Attack strength 1. Support from A Ber was cut by an attack from Pru.",
+  "F Bal S A Pru - Ber: Support given. The support was not cut and counts.",
+  "A Pru - Ber: Fails — not strong enough. Attack strength 2 (A Pru + support from F Bal). A Ber holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.6 Support to hold on convoying unit allowed 1`] = `
+[
+  "A Ber - Swe: Succeeds. Convoyed via Bal. Attack strength 1.",
+  "F Bal C A Ber - Swe: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Pru S F Bal: Support given. The support was not cut and counts.",
+  "F Lvn - Bal: Fails — not strong enough. Attack strength 2 (F Lvn + support from F Bot). F Bal holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "F Bot S F Lvn - Bal: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.7 Support to hold on moving unit not allowed 1`] = `
+[
+  "F Bal - Swe: Bounced — and dislodged. Attack strength 1. A Fin also tried to enter Swe with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces. Dislodged by F Lvn.",
+  "F Pru S F Bal: No effect. F Bal was ordered to move, so it couldn't receive hold support.",
+  "F Lvn - Bal: Succeeds. Attack strength 2 (F Lvn + support from F Bot). F Bal holds with strength 1. 2 beats hold strength 1. F Bal is dislodged.",
+  "F Bot S F Lvn - Bal: Support given. The support was not cut and counts.",
+  "A Fin - Swe: Bounced. Attack strength 1. F Bal also tried to enter Swe with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.8 Failed convoy cannot receive hold support 1`] = `
+[
+  "F Ion H: Holds. ",
+  "A Ser S A Alb - Gre: Support given. The support was not cut and counts.",
+  "A Alb - Gre: Succeeds. Attack strength 2 (A Alb + support from A Ser). A Gre holds with strength 1. 2 beats hold strength 1. A Gre is dislodged.",
+  "A Gre - Nap: Fails — convoy disrupted — and dislodged. The army needed a convoy, and no convoy route made it through. It stays in Gre. Dislodged by A Alb.",
+  "A Bul S A Gre: No effect. A Gre was ordered to move, so it couldn't receive hold support.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.9 Support to move on holding unit not allowed 1`] = `
+[
+  "A Ven - Tri: Succeeds. Attack strength 2 (A Ven + support from A Tyr). A Tri holds with strength 1. 2 beats hold strength 1. A Tri is dislodged.",
+  "A Tyr S A Ven - Tri: Support given. The support was not cut and counts.",
+  "A Alb S A Tri - Ser: No effect. A Tri wasn't ordered to move to Ser, so the support didn't apply.",
+  "A Tri H: Holds — but dislodged. Dislodged by A Ven.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.10 Self dislodgment prohibited 1`] = `
+[
+  "A Ber H: Holds. ",
+  "F Kie - Ber: Fails — own unit in the way. Attack strength 0 (F Kie + support from A Mun). Ber holds a unit of the same power, which can't be dislodged by its own side.",
+  "A Mun S F Kie - Ber: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.11 No self dislodgment of returning unit 1`] = `
+[
+  "A Ber - Pru: Bounced. Attack strength 1. A War also tried to enter Pru with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "F Kie - Ber: Fails — own unit in the way. Attack strength 0 (F Kie + support from A Mun). Ber holds a unit of the same power, which can't be dislodged by its own side.",
+  "A Mun S F Kie - Ber: Support given. The support was not cut and counts.",
+  "A War - Pru: Bounced. Attack strength 1. A Ber also tried to enter Pru with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.12 Supporting a foreign unit to dislodge own unit prohibited 1`] = `
+[
+  "F Tri H: Holds. ",
+  "A Vie S A Ven - Tri: Support given. The support was not cut and counts.",
+  "A Ven - Tri: Fails — not strong enough. Attack strength 1. F Tri holds with strength 1. Support from A Vie doesn't count: a power can't help dislodge its own unit. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.13 Supporting a foreign unit to dislodge a returning own unit prohibited 1`] = `
+[
+  "F Tri - Adr: Bounced. Attack strength 1. F Apu also tried to enter Adr with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "A Vie S A Ven - Tri: Support given. The support was not cut and counts.",
+  "A Ven - Tri: Fails — not strong enough. Attack strength 1. F Tri holds with strength 1. Support from A Vie doesn't count: a power can't help dislodge its own unit. 1 point of attack isn't more than the hold strength of 1.",
+  "F Apu - Adr: Bounced. Attack strength 1. F Tri also tried to enter Adr with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.14 Supporting a foreign unit is not enough to prevent dislodgement 1`] = `
+[
+  "F Tri H: Holds — but dislodged. Dislodged by A Ven.",
+  "A Vie S A Ven - Tri: Support given. The support was not cut and counts.",
+  "A Ven - Tri: Succeeds. Attack strength 3 (A Ven + support from A Tyr, F Adr). F Tri holds with strength 1. Support from A Vie doesn't count: a power can't help dislodge its own unit. 3 beats hold strength 1. F Tri is dislodged.",
+  "A Tyr S A Ven - Tri: Support given. The support was not cut and counts.",
+  "F Adr S A Ven - Tri: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.15 Defender cannot cut support for attack on itself 1`] = `
+[
+  "F Con S F Bla - Ank: Support given. The support was not cut and counts.",
+  "F Bla - Ank: Succeeds. Attack strength 2 (F Bla + support from F Con). F Ank holds with strength 1. 2 beats hold strength 1. F Ank is dislodged.",
+  "F Ank - Con: Fails — not strong enough — and dislodged. Attack strength 1. F Con holds with strength 1. 1 point of attack isn't more than the hold strength of 1. Dislodged by F Bla.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.16 Convoying a unit dislodging a unit of same power is allowed 1`] = `
+[
+  "A Lon H: Holds — but dislodged. Dislodged by A Bel (convoyed).",
+  "F Nth C A Bel - Lon: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F ENG S A Bel - Lon: Support given. The support was not cut and counts.",
+  "A Bel - Lon: Succeeds. Convoyed via Nth. Attack strength 2 (A Bel + support from F ENG). A Lon holds with strength 1. 2 beats hold strength 1. A Lon is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.17 Dislodgement cuts supports 1`] = `
+[
+  "F Con S F Bla - Ank: Support cut — dislodged — and dislodged. The supporting unit was dislodged by F Ank. Dislodged by F Ank.",
+  "F Bla - Ank: Bounced. Attack strength 1. F Ank moved out, so Ank was open. A Arm also tried to enter Ank with strength 1. Support from F Con didn't count: that unit was dislodged. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "F Ank - Con: Succeeds. Attack strength 2 (F Ank + support from A Smy). F Con holds with strength 1. 2 beats hold strength 1. F Con is dislodged.",
+  "A Smy S F Ank - Con: Support given. The support was not cut and counts.",
+  "A Arm - Ank: Bounced. Attack strength 1. F Ank moved out, so Ank was open. F Bla also tried to enter Ank with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.18 A surviving unit will sustain support 1`] = `
+[
+  "F Con S F Bla - Ank: Support given. The support was not cut and counts.",
+  "F Bla - Ank: Succeeds. Attack strength 2 (F Bla + support from F Con). F Ank holds with strength 1. A Arm also tried to enter Ank with strength 1. 2 beats hold strength 1 and every rival move. F Ank is dislodged.",
+  "A Bul S F Con: Support given. The support was not cut and counts.",
+  "F Ank - Con: Fails — not strong enough — and dislodged. Attack strength 2 (F Ank + support from A Smy). F Con holds with strength 2. 2 points of attack isn't more than the hold strength of 2. Dislodged by F Bla.",
+  "A Smy S F Ank - Con: Support given. The support was not cut and counts.",
+  "A Arm - Ank: Fails — own unit in the way. Attack strength 0. Ank holds a unit of the same power, which can't be dislodged by its own side. F Bla also tried to enter Ank with strength 2.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.19 Even when surviving is in alternative way 1`] = `
+[
+  "F Con S F Bla - Ank: Support given. The support was not cut and counts.",
+  "F Bla - Ank: Succeeds. Attack strength 2 (F Bla + support from F Con). F Ank holds with strength 1. 2 beats hold strength 1. F Ank is dislodged.",
+  "A Smy S F Ank - Con: Support given. The support was not cut and counts.",
+  "F Ank - Con: Fails — not strong enough — and dislodged. Attack strength 1. F Con holds with strength 1. Support from A Smy doesn't count: a power can't help dislodge its own unit. 1 point of attack isn't more than the hold strength of 1. Dislodged by F Bla.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.20 Unit cannot cut support of its own country 1`] = `
+[
+  "F Lon S F Nth - ENG: Support given. The support was not cut and counts.",
+  "F Nth - ENG: Succeeds. Attack strength 2 (F Nth + support from F Lon). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+  "A Yor - Lon: Fails — own unit in the way. Attack strength 0. Lon holds a unit of the same power, which can't be dislodged by its own side.",
+  "F ENG H: Holds — but dislodged. Dislodged by F Nth.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.21 Dislodging does not cancel a support cut 1`] = `
+[
+  "F Tri H: Holds. ",
+  "A Ven - Tri: Fails — not strong enough. Attack strength 1. F Tri holds with strength 1. Support from A Tyr was cut by an attack from Mun. 1 point of attack isn't more than the hold strength of 1.",
+  "A Tyr S A Ven - Tri: Support cut. A Mun attacked Tyr, cutting the support.",
+  "A Mun - Tyr: Fails — not strong enough — and dislodged. Attack strength 1. A Tyr holds with strength 1. 1 point of attack isn't more than the hold strength of 1. Dislodged by A Sil.",
+  "A Sil - Mun: Succeeds. Attack strength 2 (A Sil + support from A Ber). A Mun holds with strength 1. 2 beats hold strength 1. A Mun is dislodged.",
+  "A Ber S A Sil - Mun: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.22 Impossible fleet move cannot be supported 1`] = `
+[
+  "F Kie - Mun: Illegal — treated as a hold — and dislodged. This order can't be carried out: fleets can't enter inland provinces. The unit holds instead. Dislodged by A Mun.",
+  "A Bur S F Kie - Mun: No effect. F Kie wasn't ordered to move to Mun, so the support didn't apply.",
+  "A Mun - Kie: Succeeds. Attack strength 2 (A Mun + support from A Ber). F Kie holds with strength 1. 2 beats hold strength 1. F Kie is dislodged.",
+  "A Ber S A Mun - Kie: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.23 Impossible coast move cannot be supported 1`] = `
+[
+  "F Lyo - Spa/sc: Succeeds. Attack strength 2 (F Lyo + support from F Wes). F Spa/nc holds with strength 1. 2 beats hold strength 1. F Spa/nc is dislodged.",
+  "F Wes S F Lyo - Spa: Support given. The support was not cut and counts.",
+  "F Spa/nc - Lyo: Illegal — treated as a hold — and dislodged. This order can't be carried out: the unit can't reach that province. The unit holds instead. Dislodged by F Lyo.",
+  "F Mar S F Spa/nc - Lyo: No effect. F Spa/nc wasn't ordered to move to Lyo, so the support didn't apply.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.24 Impossible army move cannot be supported 1`] = `
+[
+  "A Mar - Lyo: Illegal — treated as a hold. This order can't be carried out: armies can't enter sea spaces. The unit holds instead.",
+  "F Spa/sc S A Mar - Lyo: No effect. A Mar wasn't ordered to move to Lyo, so the support didn't apply.",
+  "F Lyo H: Holds — but dislodged. Dislodged by F Wes.",
+  "F Tys S F Wes - Lyo: Support given. The support was not cut and counts.",
+  "F Wes - Lyo: Succeeds. Attack strength 2 (F Wes + support from F Tys). F Lyo holds with strength 1. 2 beats hold strength 1. F Lyo is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.25 Failing hold support can be supported 1`] = `
+[
+  "A Ber S A Pru: No effect. A Pru was ordered to move, so it couldn't receive hold support.",
+  "F Kie S A Ber: Support given. The support was not cut and counts.",
+  "F Bal S A Pru - Ber: Support given. The support was not cut and counts.",
+  "A Pru - Ber: Fails — not strong enough. Attack strength 2 (A Pru + support from F Bal). A Ber holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.26 Failing move support can be supported 1`] = `
+[
+  "A Ber S A Pru - Sil: No effect. A Pru wasn't ordered to move to Sil, so the support didn't apply.",
+  "F Kie S A Ber: Support given. The support was not cut and counts.",
+  "F Bal S A Pru - Ber: Support given. The support was not cut and counts.",
+  "A Pru - Ber: Fails — not strong enough. Attack strength 2 (A Pru + support from F Bal). A Ber holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.27 Failing convoy can be supported 1`] = `
+[
+  "F Swe - Bal: Fails — not strong enough. Attack strength 2 (F Swe + support from F Den). F Bal holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "F Den S F Swe - Bal: Support given. The support was not cut and counts.",
+  "A Ber H: Holds. ",
+  "F Bal C A Ber - Lvn: No effect. A Ber wasn't ordered to move to Lvn by convoy.",
+  "F Pru S F Bal: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.28 Impossible move and support 1`] = `
+[
+  "A Bud S F Rum: Support given. The support was not cut and counts.",
+  "F Rum - Hol: Illegal — treated as a hold. This order can't be carried out: the unit can't reach that province. The unit holds instead.",
+  "F Bla - Rum: Fails — not strong enough. Attack strength 2 (F Bla + support from A Bul). F Rum holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "A Bul S F Bla - Rum: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.29 Move to impossible coast and support 1`] = `
+[
+  "A Bud S F Rum: Support given. The support was not cut and counts.",
+  "F Rum - Bul/sc: Illegal — treated as a hold. This order can't be carried out: that coast can't be reached from here. The unit holds instead.",
+  "F Bla - Rum: Fails — not strong enough. Attack strength 2 (F Bla + support from A Bul). F Rum holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "A Bul S F Bla - Rum: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.30 Move without coast and support 1`] = `
+[
+  "F Aeg S F Con: Support given. The support was not cut and counts.",
+  "F Con - Bul: Illegal — treated as a hold. This order can't be carried out: the destination has two coasts and none was chosen. The unit holds instead.",
+  "F Bla - Con: Fails — not strong enough. Attack strength 2 (F Bla + support from A Bul). F Con holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "A Bul S F Bla - Con: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.31 A tricky impossible support 1`] = `
+[
+  "A Rum - Arm: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through. It stays in Rum.",
+  "F Bla S A Rum - Arm: Illegal — treated as a hold. This order can't be carried out: the only convoy route for that army runs through this fleet, and a fleet can't support and convoy at once. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.32 A missing fleet 1`] = `
+[
+  "F Edi S A Lvp - Yor: Support given. The support was not cut and counts.",
+  "A Lvp - Yor: Fails — not strong enough. Attack strength 2 (A Lvp + support from F Edi). A Yor holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "F Lon S A Yor: Support given. The support was not cut and counts.",
+  "A Yor - Hol: Illegal — treated as a hold. This order can't be carried out: there's no possible convoy route. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.33 Unwanted support allowed 1`] = `
+[
+  "A Ser - Bud: Succeeds. Attack strength 2 (A Ser + support from A Gal). A Vie also tried to enter Bud with strength 1. 2 beats every rival move into Bud.",
+  "A Vie - Bud: Fails — beaten by a stronger move. Attack strength 1. A Ser also tried to enter Bud with strength 2. 1 point of attack isn't more than the rival's 2, so the move bounces.",
+  "A Gal S A Ser - Bud: Support given. The support was not cut and counts.",
+  "A Bul - Ser: Succeeds. Attack strength 1. A Ser moved out, so Ser was open.",
+]
+`;
+
+exports[`DATC v3.0 > 6.D.34 Support targeting own area not allowed 1`] = `
+[
+  "A Ber - Pru: Succeeds. Attack strength 3 (A Ber + support from A Sil, F Bal). A Pru holds with strength 1. A Lvn also tried to enter Pru with strength 2. 3 beats hold strength 1 and every rival move. A Pru is dislodged.",
+  "A Sil S A Ber - Pru: Support given. The support was not cut and counts.",
+  "F Bal S A Ber - Pru: Support given. The support was not cut and counts.",
+  "A Pru S A Lvn - Pru: Illegal — treated as a hold — and dislodged. This order can't be carried out: a unit can't support itself or a move into its own province. The unit holds instead. Dislodged by A Ber.",
+  "A War S A Lvn - Pru: Support given. The support was not cut and counts.",
+  "A Lvn - Pru: Fails — beaten by a stronger move. Attack strength 2 (A Lvn + support from A War). A Pru holds with strength 1. A Ber also tried to enter Pru with strength 3. 2 points of attack isn't more than the rival's 3, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.1 Dislodged unit has no effect on attacker's area 1`] = `
+[
+  "A Ber - Pru: Succeeds. Attack strength 2 (A Ber + support from A Sil). Head-to-head battle with A Pru moving the other way, which defends with strength 1. 2 beats defend strength 1.",
+  "F Kie - Ber: Succeeds. Attack strength 1. A Ber moved out, so Ber was open. A Pru also tried to enter Ber with strength 0. 1 beats every rival move into Ber.",
+  "A Sil S A Ber - Pru: Support given. The support was not cut and counts.",
+  "A Pru - Ber: Fails — lost the head-to-head — and dislodged. Attack strength 1. Head-to-head battle with A Ber moving the other way, which defends with strength 2. F Kie also tried to enter Ber with strength 1. 1 point of attack isn't more than the defend strength of 2. Dislodged by A Ber.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.2 No self dislodgement in head-to-head battle 1`] = `
+[
+  "A Ber - Kie: Fails — own unit in the way. Attack strength 0 (A Ber + support from A Mun). Kie holds a unit of the same power, which can't be dislodged by its own side.",
+  "F Kie - Ber: Fails — own unit in the way. Attack strength 0. Ber holds a unit of the same power, which can't be dislodged by its own side.",
+  "A Mun S A Ber - Kie: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.3 No help in dislodging own unit 1`] = `
+[
+  "A Ber - Kie: Fails — lost the head-to-head. Attack strength 1. Head-to-head battle with F Kie moving the other way, which defends with strength 2. 1 point of attack isn't more than the defend strength of 2.",
+  "A Mun S F Kie - Ber: Support given. The support was not cut and counts.",
+  "F Kie - Ber: Fails — lost the head-to-head. Attack strength 1. Head-to-head battle with A Ber moving the other way, which defends with strength 1. Support from A Mun doesn't count: a power can't help dislodge its own unit. 1 point of attack isn't more than the defend strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.4 Non-dislodged loser still has effect 1`] = `
+[
+  "F Hol - Nth: Bounced. Attack strength 3 (F Hol + support from F Hel, F Ska). Head-to-head battle with F Nth moving the other way, which defends with strength 2. F Nwg also tried to enter Nth with strength 3. 3 points of attack isn't more than the rival's 3, so the move bounces.",
+  "F Hel S F Hol - Nth: Support given. The support was not cut and counts.",
+  "F Ska S F Hol - Nth: Support given. The support was not cut and counts.",
+  "F Nth - Hol: Fails — lost the head-to-head. Attack strength 2 (F Nth + support from F Bel). Head-to-head battle with F Hol moving the other way, which defends with strength 3. A Ruh also tried to enter Hol with strength 2. 2 points of attack isn't more than the defend strength of 3.",
+  "F Bel S F Nth - Hol: Support given. The support was not cut and counts.",
+  "F Edi S F Nwg - Nth: Support given. The support was not cut and counts.",
+  "F Yor S F Nwg - Nth: Support given. The support was not cut and counts.",
+  "F Nwg - Nth: Bounced. Attack strength 3 (F Nwg + support from F Edi, F Yor). F Nth holds with strength 1. F Hol also tried to enter Nth with strength 3. 3 points of attack isn't more than the rival's 3, so the move bounces.",
+  "A Kie S A Ruh - Hol: Support given. The support was not cut and counts.",
+  "A Ruh - Hol: Bounced. Attack strength 2 (A Ruh + support from A Kie). F Hol holds with strength 1. F Nth also tried to enter Hol with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.5 Loser dislodged by another army still has effect 1`] = `
+[
+  "F Hol - Nth: Fails — beaten by a stronger move. Attack strength 3 (F Hol + support from F Hel, F Ska). Head-to-head battle with F Nth moving the other way, which defends with strength 2. F Nwg also tried to enter Nth with strength 4. 3 points of attack isn't more than the rival's 4, so the move bounces.",
+  "F Hel S F Hol - Nth: Support given. The support was not cut and counts.",
+  "F Ska S F Hol - Nth: Support given. The support was not cut and counts.",
+  "F Nth - Hol: Fails — lost the head-to-head — and dislodged. Attack strength 2 (F Nth + support from F Bel). Head-to-head battle with F Hol moving the other way, which defends with strength 3. A Ruh also tried to enter Hol with strength 2. 2 points of attack isn't more than the defend strength of 3. Dislodged by F Nwg.",
+  "F Bel S F Nth - Hol: Support given. The support was not cut and counts.",
+  "F Edi S F Nwg - Nth: Support given. The support was not cut and counts.",
+  "F Yor S F Nwg - Nth: Support given. The support was not cut and counts.",
+  "F Nwg - Nth: Succeeds. Attack strength 4 (F Nwg + support from F Edi, F Yor, F Lon). F Nth holds with strength 1. F Hol also tried to enter Nth with strength 3. 4 beats hold strength 1 and every rival move. F Nth is dislodged.",
+  "F Lon S F Nwg - Nth: Support given. The support was not cut and counts.",
+  "A Kie S A Ruh - Hol: Support given. The support was not cut and counts.",
+  "A Ruh - Hol: Bounced. Attack strength 2 (A Ruh + support from A Kie). F Hol holds with strength 1. F Nth also tried to enter Hol with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.6 Not dislodge because of own support still has effect 1`] = `
+[
+  "F Hol - Nth: Fails — lost the head-to-head. Attack strength 2 (F Hol + support from F Hel). Head-to-head battle with F Nth moving the other way, which defends with strength 2. Support from F ENG doesn't count: a power can't help dislodge its own unit. 2 points of attack isn't more than the defend strength of 2.",
+  "F Hel S F Hol - Nth: Support given. The support was not cut and counts.",
+  "F Nth - Hol: Fails — lost the head-to-head. Attack strength 2 (F Nth + support from F Bel). Head-to-head battle with F Hol moving the other way, which defends with strength 3. A Ruh also tried to enter Hol with strength 2. 2 points of attack isn't more than the defend strength of 3.",
+  "F Bel S F Nth - Hol: Support given. The support was not cut and counts.",
+  "F ENG S F Hol - Nth: Support given. The support was not cut and counts.",
+  "A Kie S A Ruh - Hol: Support given. The support was not cut and counts.",
+  "A Ruh - Hol: Bounced. Attack strength 2 (A Ruh + support from A Kie). F Hol holds with strength 1. F Nth also tried to enter Hol with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.7 No self dislodgement with beleaguered garrison 1`] = `
+[
+  "F Nth H: Holds. ",
+  "F Yor S F Nwy - Nth: Support given. The support was not cut and counts.",
+  "F Hol S F Hel - Nth: Support given. The support was not cut and counts.",
+  "F Hel - Nth: Fails — beaten by a stronger move. Attack strength 2 (F Hel + support from F Hol). F Nth holds with strength 1. F Nwy also tried to enter Nth with strength 3. 2 points of attack isn't more than the rival's 3, so the move bounces.",
+  "F Ska S F Nwy - Nth: Support given. The support was not cut and counts.",
+  "F Nwy - Nth: Bounced. Attack strength 2 (F Nwy + support from F Ska). F Nth holds with strength 1. F Hel also tried to enter Nth with strength 2. Support from F Yor doesn't count: a power can't help dislodge its own unit. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.8 No self dislodgement with beleaguered garrison and head-to-head battle 1`] = `
+[
+  "F Nth - Nwy: Fails — lost the head-to-head. Attack strength 1. Head-to-head battle with F Nwy moving the other way, which defends with strength 3. 1 point of attack isn't more than the defend strength of 3.",
+  "F Yor S F Nwy - Nth: Support given. The support was not cut and counts.",
+  "F Hol S F Hel - Nth: Support given. The support was not cut and counts.",
+  "F Hel - Nth: Fails — beaten by a stronger move. Attack strength 2 (F Hel + support from F Hol). F Nth holds with strength 1. F Nwy also tried to enter Nth with strength 3. 2 points of attack isn't more than the rival's 3, so the move bounces.",
+  "F Ska S F Nwy - Nth: Support given. The support was not cut and counts.",
+  "F Nwy - Nth: Bounced. Attack strength 2 (F Nwy + support from F Ska). Head-to-head battle with F Nth moving the other way, which defends with strength 1. F Hel also tried to enter Nth with strength 2. Support from F Yor doesn't count: a power can't help dislodge its own unit. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.9 Almost self dislodgement with beleaguered garrison 1`] = `
+[
+  "F Nth - Nwg: Succeeds. Attack strength 1.",
+  "F Yor S F Nwy - Nth: Support given. The support was not cut and counts.",
+  "F Hol S F Hel - Nth: Support given. The support was not cut and counts.",
+  "F Hel - Nth: Fails — beaten by a stronger move. Attack strength 2 (F Hel + support from F Hol). F Nth moved out, so Nth was open. F Nwy also tried to enter Nth with strength 3. 2 points of attack isn't more than the rival's 3, so the move bounces.",
+  "F Ska S F Nwy - Nth: Support given. The support was not cut and counts.",
+  "F Nwy - Nth: Succeeds. Attack strength 3 (F Nwy + support from F Yor, F Ska). F Nth moved out, so Nth was open. F Hel also tried to enter Nth with strength 2. 3 beats every rival move into Nth.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.10 Almost circular movement with no self dislodgement with beleaguered garrison 1`] = `
+[
+  "F Nth - Den: Fails — not strong enough. Attack strength 1. F Den holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "F Yor S F Nwy - Nth: Support given. The support was not cut and counts.",
+  "F Hol S F Hel - Nth: Support given. The support was not cut and counts.",
+  "F Hel - Nth: Fails — beaten by a stronger move. Attack strength 2 (F Hel + support from F Hol). F Nth holds with strength 1. F Nwy also tried to enter Nth with strength 3. 2 points of attack isn't more than the rival's 3, so the move bounces.",
+  "F Den - Hel: Fails — own unit in the way. Attack strength 0. Hel holds a unit of the same power, which can't be dislodged by its own side.",
+  "F Ska S F Nwy - Nth: Support given. The support was not cut and counts.",
+  "F Nwy - Nth: Bounced. Attack strength 2 (F Nwy + support from F Ska). F Nth holds with strength 1. F Hel also tried to enter Nth with strength 2. Support from F Yor doesn't count: a power can't help dislodge its own unit. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.11 No self dislodgement with beleaguered garrison, unit swap with adjacent convoying and two coasts 1`] = `
+[
+  "A Spa - Por via convoy: Succeeds. Convoyed via MAO. Attack strength 1. F Por moved out, so Por was open. Part of a circular movement: all units in the circle move.",
+  "F MAO C A Spa - Por: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Lyo S F Por - Spa: Support given. The support was not cut and counts.",
+  "A Mar S A Gas - Spa: Support given. The support was not cut and counts.",
+  "A Gas - Spa: Fails — beaten by a stronger move. Attack strength 2 (A Gas + support from A Mar). A Spa moved out, so Spa was open. F Por also tried to enter Spa with strength 3. 2 points of attack isn't more than the rival's 3, so the move bounces.",
+  "F Por - Spa/nc: Succeeds. Attack strength 3 (F Por + support from F Lyo, F Wes). A Spa moved out, so Spa was open. A Gas also tried to enter Spa with strength 2. 3 beats every rival move into Spa. Part of a circular movement: all units in the circle move.",
+  "F Wes S F Por - Spa: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.12 Support on attack on own unit can be used for other means 1`] = `
+[
+  "A Bud - Rum: Fails — not strong enough. Attack strength 1. A Rum holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "A Ser S A Vie - Bud: Support given. The support was not cut and counts.",
+  "A Vie - Bud: Fails — not strong enough. Attack strength 1. A Bud holds with strength 1. A Gal also tried to enter Bud with strength 2. Support from A Ser doesn't count: a power can't help dislodge its own unit. 1 point of attack isn't more than the hold strength of 1.",
+  "A Gal - Bud: Bounced. Attack strength 2 (A Gal + support from A Rum). A Bud holds with strength 1. A Vie also tried to enter Bud with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "A Rum S A Gal - Bud: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.13 Three way beleaguered garrison 1`] = `
+[
+  "F Edi S F Yor - Nth: Support given. The support was not cut and counts.",
+  "F Yor - Nth: Bounced. Attack strength 2 (F Yor + support from F Edi). F Nth holds with strength 1. F Bel also tried to enter Nth with strength 2. F Nwg also tried to enter Nth with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F Bel - Nth: Bounced. Attack strength 2 (F Bel + support from F ENG). F Nth holds with strength 1. F Yor also tried to enter Nth with strength 2. F Nwg also tried to enter Nth with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F ENG S F Bel - Nth: Support given. The support was not cut and counts.",
+  "F Nth H: Holds. ",
+  "F Nwg - Nth: Bounced. Attack strength 2 (F Nwg + support from F Nwy). F Nth holds with strength 1. F Yor also tried to enter Nth with strength 2. F Bel also tried to enter Nth with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F Nwy S F Nwg - Nth: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.14 Illegal head-to-head battle can still defend 1`] = `
+[
+  "A Lvp - Edi: Fails — not strong enough. Attack strength 1. F Edi holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "F Edi - Lvp: Illegal — treated as a hold. This order can't be carried out: the unit can't reach that province. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.E.15 The friendly head-to-head battle 1`] = `
+[
+  "F Hol S A Ruh - Kie: Support given. The support was not cut and counts.",
+  "A Ruh - Kie: Fails — beaten by a stronger move. Attack strength 2 (A Ruh + support from F Hol). A Kie holds with strength 1. A Ber also tried to enter Kie with strength 3. 2 points of attack isn't more than the rival's 3, so the move bounces.",
+  "A Kie - Ber: Fails — lost the head-to-head. Attack strength 3 (A Kie + support from A Mun, A Sil). Head-to-head battle with A Ber moving the other way, which defends with strength 3. A Pru also tried to enter Ber with strength 2. 3 points of attack isn't more than the defend strength of 3.",
+  "A Mun S A Kie - Ber: Support given. The support was not cut and counts.",
+  "A Sil S A Kie - Ber: Support given. The support was not cut and counts.",
+  "A Ber - Kie: Fails — lost the head-to-head. Attack strength 3 (A Ber + support from F Den, F Hel). Head-to-head battle with A Kie moving the other way, which defends with strength 3. A Ruh also tried to enter Kie with strength 2. 3 points of attack isn't more than the defend strength of 3.",
+  "F Den S A Ber - Kie: Support given. The support was not cut and counts.",
+  "F Hel S A Ber - Kie: Support given. The support was not cut and counts.",
+  "F Bal S A Pru - Ber: Support given. The support was not cut and counts.",
+  "A Pru - Ber: Fails — beaten by a stronger move. Attack strength 2 (A Pru + support from F Bal). A Ber holds with strength 1. A Kie also tried to enter Ber with strength 3. 2 points of attack isn't more than the rival's 3, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.1 No convoy in coastal areas 1`] = `
+[
+  "A Gre - Sev: Illegal — treated as a hold. This order can't be carried out: there's no possible convoy route. The unit holds instead.",
+  "F Aeg C A Gre - Sev: Illegal — treated as a hold. This order can't be carried out: this fleet can't be part of a convoy between those provinces. The unit holds instead.",
+  "F Con C A Gre - Sev: Illegal — treated as a hold. This order can't be carried out: only fleets in sea spaces can convoy. The unit holds instead.",
+  "F Bla C A Gre - Sev: Illegal — treated as a hold. This order can't be carried out: this fleet can't be part of a convoy between those provinces. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.2 An army being convoyed can bounce as normal 1`] = `
+[
+  "F ENG C A Lon - Bre: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Lon - Bre: Bounced. Convoyed via ENG. Attack strength 1. A Par also tried to enter Bre with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "A Par - Bre: Bounced. Attack strength 1. A Lon also tried to enter Bre with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.3 An army being convoyed can receive support 1`] = `
+[
+  "F ENG C A Lon - Bre: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Lon - Bre: Succeeds. Convoyed via ENG. Attack strength 2 (A Lon + support from F MAO). A Par also tried to enter Bre with strength 1. 2 beats every rival move into Bre.",
+  "F MAO S A Lon - Bre: Support given. The support was not cut and counts.",
+  "A Par - Bre: Fails — beaten by a stronger move. Attack strength 1. A Lon also tried to enter Bre with strength 2. 1 point of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.4 An attacked convoy is not disrupted 1`] = `
+[
+  "F Nth C A Lon - Hol: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Lon - Hol: Succeeds. Convoyed via Nth. Attack strength 1.",
+  "F Ska - Nth: Fails — not strong enough. Attack strength 1. F Nth holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.5 A beleaguered convoy is not disrupted 1`] = `
+[
+  "F Nth C A Lon - Hol: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Lon - Hol: Succeeds. Convoyed via Nth. Attack strength 1.",
+  "F ENG - Nth: Bounced. Attack strength 2 (F ENG + support from F Bel). F Nth holds with strength 1. F Ska also tried to enter Nth with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F Bel S F ENG - Nth: Support given. The support was not cut and counts.",
+  "F Ska - Nth: Bounced. Attack strength 2 (F Ska + support from F Den). F Nth holds with strength 1. F ENG also tried to enter Nth with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F Den S F Ska - Nth: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.6 Dislodged convoy does not cut support 1`] = `
+[
+  "F Nth C A Lon - Hol: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Ska.",
+  "A Lon - Hol: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: Nth). It stays in Lon.",
+  "A Hol S A Bel: Support given. The support was not cut and counts.",
+  "A Bel S A Hol: Support cut. A Pic attacked Bel, cutting the support.",
+  "F Hel S F Ska - Nth: Support given. The support was not cut and counts.",
+  "F Ska - Nth: Succeeds. Attack strength 2 (F Ska + support from F Hel). F Nth holds with strength 1. 2 beats hold strength 1. F Nth is dislodged.",
+  "A Pic - Bel: Fails — not strong enough. Attack strength 2 (A Pic + support from A Bur). A Bel holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "A Bur S A Pic - Bel: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.7 Dislodged convoy does not cause contested area 1`] = `
+[
+  "F Nth C A Lon - Hol: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Ska.",
+  "A Lon - Hol: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: Nth). It stays in Lon.",
+  "F Hel S F Ska - Nth: Support given. The support was not cut and counts.",
+  "F Ska - Nth: Succeeds. Attack strength 2 (F Ska + support from F Hel). F Nth holds with strength 1. 2 beats hold strength 1. F Nth is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.8 Dislodged convoy does not cause a bounce 1`] = `
+[
+  "F Nth C A Lon - Hol: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Ska.",
+  "A Lon - Hol: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: Nth). It stays in Lon.",
+  "F Hel S F Ska - Nth: Support given. The support was not cut and counts.",
+  "F Ska - Nth: Succeeds. Attack strength 2 (F Ska + support from F Hel). F Nth holds with strength 1. 2 beats hold strength 1. F Nth is dislodged.",
+  "A Bel - Hol: Succeeds. Attack strength 1. A Lon also tried to enter Hol with strength 0. 1 beats every rival move into Hol.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.9 Dislodge of multi-route convoy 1`] = `
+[
+  "F ENG C A Lon - Bel: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F MAO.",
+  "F Nth C A Lon - Bel: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Lon - Bel: Succeeds. Convoyed via Nth. Attack strength 1.",
+  "F Bre S F MAO - ENG: Support given. The support was not cut and counts.",
+  "F MAO - ENG: Succeeds. Attack strength 2 (F MAO + support from F Bre). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.10 Dislodge of multi-route convoy with foreign fleet 1`] = `
+[
+  "F Nth C A Lon - Bel: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Lon - Bel: Succeeds. Convoyed via Nth. Attack strength 1.",
+  "F ENG C A Lon - Bel: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F MAO.",
+  "F Bre S F MAO - ENG: Support given. The support was not cut and counts.",
+  "F MAO - ENG: Succeeds. Attack strength 2 (F MAO + support from F Bre). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.11 Dislodge of multi-route convoy with only foreign fleets 1`] = `
+[
+  "A Lon - Bel: Succeeds. Convoyed via Nth. Attack strength 1.",
+  "F ENG C A Lon - Bel: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F MAO.",
+  "F Nth C A Lon - Bel: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Bre S F MAO - ENG: Support given. The support was not cut and counts.",
+  "F MAO - ENG: Succeeds. Attack strength 2 (F MAO + support from F Bre). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.12 Dislodged convoying fleet not on route 1`] = `
+[
+  "F ENG C A Lon - Bel: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Lon - Bel: Succeeds. Convoyed via ENG. Attack strength 1.",
+  "F Iri C A Lon - Bel: Illegal — treated as a hold — and dislodged. This order can't be carried out: this fleet can't be part of a convoy between those provinces. The unit holds instead. Dislodged by F MAO.",
+  "F NAO S F MAO - Iri: Support given. The support was not cut and counts.",
+  "F MAO - Iri: Succeeds. Attack strength 2 (F MAO + support from F NAO). F Iri holds with strength 1. 2 beats hold strength 1. F Iri is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.13 The unwanted alternative 1`] = `
+[
+  "A Lon - Bel: Succeeds. Convoyed via ENG. Attack strength 1.",
+  "F Nth C A Lon - Bel: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Den.",
+  "F ENG C A Lon - Bel: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Hol S F Den - Nth: Support given. The support was not cut and counts.",
+  "F Den - Nth: Succeeds. Attack strength 2 (F Den + support from F Hol). F Nth holds with strength 1. 2 beats hold strength 1. F Nth is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.14 Simple convoy paradox 1`] = `
+[
+  "F Lon S F Wal - ENG: Support given. The support was not cut and counts. A Bre attacked by convoy, but under the rulebook a convoyed army doesn't cut support for an attack on a fleet it needs for its own convoy.",
+  "F Wal - ENG: Succeeds. Attack strength 2 (F Wal + support from F Lon). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+  "A Bre - Lon: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: ENG). It stays in Bre.",
+  "F ENG C A Bre - Lon: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Wal.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.15 Simple convoy paradox with additional convoy 1`] = `
+[
+  "F Lon S F Wal - ENG: Support given. The support was not cut and counts. A Bre attacked by convoy, but under the rulebook a convoyed army doesn't cut support for an attack on a fleet it needs for its own convoy.",
+  "F Wal - ENG: Succeeds. Attack strength 2 (F Wal + support from F Lon). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+  "A Bre - Lon: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: ENG). It stays in Bre.",
+  "F ENG C A Bre - Lon: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Wal.",
+  "F Iri C A NAf - Wal: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F MAO C A NAf - Wal: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A NAf - Wal: Succeeds. Convoyed via MAO → Iri. Attack strength 1. F Wal moved out, so Wal was open.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.16 Pandin's paradox 1`] = `
+[
+  "F Lon S F Wal - ENG: Support given. The support was not cut and counts. A Bre attacked by convoy, but under the rulebook a convoyed army doesn't cut support for an attack on a fleet it needs for its own convoy.",
+  "F Wal - ENG: Bounced. Attack strength 2 (F Wal + support from F Lon). F ENG holds with strength 1. F Bel also tried to enter ENG with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "A Bre - Lon: Fails — not strong enough. Convoyed via ENG. Attack strength 1. F Lon holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "F ENG C A Bre - Lon: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Nth S F Bel - ENG: Support given. The support was not cut and counts.",
+  "F Bel - ENG: Bounced. Attack strength 2 (F Bel + support from F Nth). F ENG holds with strength 1. F Wal also tried to enter ENG with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.17 Pandin's extended paradox 1`] = `
+[
+  "F Lon S F Wal - ENG: Support given — but dislodged. The support was not cut and counts. A Bre attacked by convoy, but under the rulebook a convoyed army doesn't cut support for an attack on a fleet it needs for its own convoy. Dislodged by A Bre (convoyed).",
+  "F Wal - ENG: Bounced. Attack strength 2 (F Wal + support from F Lon). F ENG holds with strength 1. F Bel also tried to enter ENG with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "A Bre - Lon: Succeeds. Convoyed via ENG. Attack strength 2 (A Bre + support from F Yor). F Lon holds with strength 1. 2 beats hold strength 1. F Lon is dislodged.",
+  "F ENG C A Bre - Lon: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Yor S A Bre - Lon: Support given. The support was not cut and counts.",
+  "F Nth S F Bel - ENG: Support given. The support was not cut and counts.",
+  "F Bel - ENG: Bounced. Attack strength 2 (F Bel + support from F Nth). F ENG holds with strength 1. F Wal also tried to enter ENG with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.18 Betrayal paradox 1`] = `
+[
+  "F Nth C A Lon - Bel: Convoy fails — paradox. This convoy was part of a convoy paradox. Under the Szykman rule, the convoying fleet holds and the convoy fails.",
+  "A Lon - Bel: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: Nth). It stays in Lon.",
+  "F ENG S A Lon - Bel: Support given. The support was not cut and counts.",
+  "F Bel S F Nth: Support given. The support was not cut and counts.",
+  "F Hel S F Ska - Nth: Support given. The support was not cut and counts.",
+  "F Ska - Nth: Fails — not strong enough. Attack strength 2 (F Ska + support from F Hel). F Nth holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.19 Multi-route convoy disruption paradox 1`] = `
+[
+  "A Tun - Nap: Fails — not strong enough. Convoyed via Ion. Attack strength 1. F Nap holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "F Tys C A Tun - Nap: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Ion C A Tun - Nap: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Nap S F Rom - Tys: Support cut. A Tun attacked Nap, cutting the support.",
+  "F Rom - Tys: Fails — not strong enough. Attack strength 1. F Tys holds with strength 1. Support from F Nap was cut by an attack from Tun. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.20 Unwanted multi-route convoy paradox 1`] = `
+[
+  "A Tun - Nap: Fails — not strong enough. Convoyed via Tys. Attack strength 1. F Nap holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+  "F Tys C A Tun - Nap: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Nap S F Ion: Support cut. A Tun attacked Nap, cutting the support.",
+  "F Ion C A Tun - Nap: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Eas.",
+  "F Aeg S F Eas - Ion: Support given. The support was not cut and counts.",
+  "F Eas - Ion: Succeeds. Attack strength 2 (F Eas + support from F Aeg). F Ion holds with strength 1. 2 beats hold strength 1. F Ion is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.21 Dad's army convoy 1`] = `
+[
+  "A Edi S A Nwy - Cly: Support given. The support was not cut and counts.",
+  "F Nwg C A Nwy - Cly: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Nwy - Cly: Succeeds. Convoyed via Nwg. Attack strength 2 (A Nwy + support from A Edi). F Cly holds with strength 1. A Lvp also tried to enter Cly with strength 0. 2 beats hold strength 1 and every rival move. F Cly is dislodged.",
+  "F Iri S F MAO - NAO: Support given. The support was not cut and counts.",
+  "F MAO - NAO: Succeeds. Attack strength 2 (F MAO + support from F Iri). F NAO holds with strength 1. 2 beats hold strength 1. F NAO is dislodged.",
+  "A Lvp - Cly via convoy: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: NAO). It stays in Lvp.",
+  "F NAO C A Lvp - Cly: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F MAO.",
+  "F Cly S F NAO: Support cut — and dislodged. A Nwy attacked Cly, cutting the support. Dislodged by A Nwy (convoyed).",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.22 Second order paradox with two resolutions 1`] = `
+[
+  "F Edi - Nth: Succeeds. Attack strength 2 (F Edi + support from F Lon). F Nth holds with strength 1. 2 beats hold strength 1. F Nth is dislodged.",
+  "F Lon S F Edi - Nth: Support given. The support was not cut and counts.",
+  "A Bre - Lon: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: ENG). It stays in Bre.",
+  "F ENG C A Bre - Lon: Convoy fails — paradox — and dislodged. This convoy was part of a convoy paradox. Under the Szykman rule, the convoying fleet holds and the convoy fails. Dislodged by F Pic.",
+  "F Bel S F Pic - ENG: Support given. The support was not cut and counts.",
+  "F Pic - ENG: Succeeds. Attack strength 2 (F Pic + support from F Bel). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+  "A Nwy - Bel: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: Nth). It stays in Nwy.",
+  "F Nth C A Nwy - Bel: Convoy fails — paradox — and dislodged. This convoy was part of a convoy paradox. Under the Szykman rule, the convoying fleet holds and the convoy fails. Dislodged by F Edi.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.23 Second order paradox with two exclusive convoys 1`] = `
+[
+  "F Edi - Nth: Fails — not strong enough. Attack strength 2 (F Edi + support from F Yor). F Nth holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "F Yor S F Edi - Nth: Support given. The support was not cut and counts.",
+  "A Bre - Lon: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: ENG). It stays in Bre.",
+  "F ENG C A Bre - Lon: Convoy fails — paradox. This convoy was part of a convoy paradox. Under the Szykman rule, the convoying fleet holds and the convoy fails.",
+  "F Bel S F ENG: Support given. The support was not cut and counts.",
+  "F Lon S F Nth: Support given. The support was not cut and counts.",
+  "F MAO - ENG: Fails — not strong enough. Attack strength 2 (F MAO + support from F Iri). F ENG holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "F Iri S F MAO - ENG: Support given. The support was not cut and counts.",
+  "A Nwy - Bel: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: Nth). It stays in Nwy.",
+  "F Nth C A Nwy - Bel: Convoy fails — paradox. This convoy was part of a convoy paradox. Under the Szykman rule, the convoying fleet holds and the convoy fails.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.24 Second order paradox with no resolution 1`] = `
+[
+  "F Edi - Nth: Succeeds. Attack strength 2 (F Edi + support from F Lon). F Nth holds with strength 1. 2 beats hold strength 1. F Nth is dislodged.",
+  "F Lon S F Edi - Nth: Support given. The support was not cut and counts.",
+  "F Iri - ENG: Fails — not strong enough. Attack strength 2 (F Iri + support from F MAO). F ENG holds with strength 2. 2 points of attack isn't more than the hold strength of 2.",
+  "F MAO S F Iri - ENG: Support given. The support was not cut and counts.",
+  "A Bre - Lon: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: ENG). It stays in Bre.",
+  "F ENG C A Bre - Lon: Convoy fails — paradox. This convoy was part of a convoy paradox. Under the Szykman rule, the convoying fleet holds and the convoy fails.",
+  "F Bel S F ENG: Support given. The support was not cut and counts.",
+  "A Nwy - Bel: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: Nth). It stays in Nwy.",
+  "F Nth C A Nwy - Bel: Convoy fails — paradox — and dislodged. This convoy was part of a convoy paradox. Under the Szykman rule, the convoying fleet holds and the convoy fails. Dislodged by F Edi.",
+]
+`;
+
+exports[`DATC v3.0 > 6.F.25 Cut support last 1`] = `
+[
+  "A Ruh - Bel: Fails — not strong enough. Attack strength 1. A Bel holds with strength 1. Support from A Hol was cut by an attack from Yor. 1 point of attack isn't more than the hold strength of 1.",
+  "A Hol S A Ruh - Bel: Support cut — and dislodged. A Yor attacked Hol, cutting the support. Dislodged by A Yor (convoyed).",
+  "A Den - Nwy: Succeeds. Convoyed via Ska. Attack strength 2 (A Den + support from A Fin). F Nwy holds with strength 1. 2 beats hold strength 1. F Nwy is dislodged.",
+  "F Ska C A Den - Nwy: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Fin S A Den - Nwy: Support given. The support was not cut and counts.",
+  "A Yor - Hol: Succeeds. Convoyed via Nth. Attack strength 2 (A Yor + support from F Hel). A Hol holds with strength 1. 2 beats hold strength 1. A Hol is dislodged.",
+  "F Nth C A Yor - Hol: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Hel S A Yor - Hol: Support given. The support was not cut and counts.",
+  "A Bel H: Holds. ",
+  "F Nwg - Nth: Fails — not strong enough. Attack strength 1. F Nth holds with strength 1. Support from F Nwy was cut by an attack from Den. 1 point of attack isn't more than the hold strength of 1.",
+  "F Nwy S F Nwg - Nth: Support cut — and dislodged. A Den attacked Nwy, cutting the support. Dislodged by A Den (convoyed).",
+  "F Swe - Ska: Fails — not strong enough. Attack strength 1. F Ska holds with strength 1. 1 point of attack isn't more than the hold strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.1 Two units can swap provinces by convoy 1`] = `
+[
+  "A Nwy - Swe: Succeeds. Convoyed via Ska. Attack strength 1. A Swe moved out, so Swe was open. Part of a circular movement: all units in the circle move.",
+  "F Ska C A Nwy - Swe: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Swe - Nwy: Succeeds. Attack strength 1. A Nwy moved out, so Nwy was open. Part of a circular movement: all units in the circle move.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.2 Kidnapping an army 1`] = `
+[
+  "A Nwy - Swe: Fails — lost the head-to-head. Attack strength 1. Head-to-head battle with F Swe moving the other way, which defends with strength 1. 1 point of attack isn't more than the defend strength of 1.",
+  "F Swe - Nwy: Fails — lost the head-to-head. Attack strength 1. Head-to-head battle with A Nwy moving the other way, which defends with strength 1. 1 point of attack isn't more than the defend strength of 1.",
+  "F Ska C A Nwy - Swe: No effect. A Nwy wasn't ordered to move to Swe by convoy.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.3 An unwanted disrupted convoy to adjacent province 1`] = `
+[
+  "F Bre - ENG: Succeeds. Attack strength 2 (F Bre + support from F MAO). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+  "A Pic - Bel: Succeeds. Attack strength 2 (A Pic + support from A Bur).",
+  "A Bur S A Pic - Bel: Support given. The support was not cut and counts.",
+  "F MAO S F Bre - ENG: Support given. The support was not cut and counts.",
+  "F ENG C A Pic - Bel: No effect — and dislodged. A Pic wasn't ordered to move to Bel by convoy. Dislodged by F Bre.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.4 An unwanted disrupted convoy to adjacent province and opposite move 1`] = `
+[
+  "F Bre - ENG: Succeeds. Attack strength 2 (F Bre + support from F MAO). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+  "A Pic - Bel: Succeeds. Attack strength 2 (A Pic + support from A Bur). Head-to-head battle with A Bel moving the other way, which defends with strength 1. 2 beats defend strength 1.",
+  "A Bur S A Pic - Bel: Support given. The support was not cut and counts.",
+  "F MAO S F Bre - ENG: Support given. The support was not cut and counts.",
+  "F ENG C A Pic - Bel: No effect — and dislodged. A Pic wasn't ordered to move to Bel by convoy. Dislodged by F Bre.",
+  "A Bel - Pic: Fails — lost the head-to-head — and dislodged. Attack strength 1. Head-to-head battle with A Pic moving the other way, which defends with strength 2. 1 point of attack isn't more than the defend strength of 2. Dislodged by A Pic.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.5 Swapping with multiple fleets with one own fleet 1`] = `
+[
+  "A Rom - Apu: Succeeds. Attack strength 1. A Apu moved out, so Apu was open. Part of a circular movement: all units in the circle move.",
+  "F Tys C A Apu - Rom: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Apu - Rom: Succeeds. Convoyed via Ion → Tys. Attack strength 1. A Rom moved out, so Rom was open. Part of a circular movement: all units in the circle move.",
+  "F Ion C A Apu - Rom: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.6 Swapping with unintended intent 1`] = `
+[
+  "A Lvp - Edi: Succeeds. Convoyed via NAO → Nwg. Attack strength 1. A Edi moved out, so Edi was open. Part of a circular movement: all units in the circle move.",
+  "F ENG C A Lvp - Edi: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Edi - Lvp: Succeeds. Attack strength 1. A Lvp moved out, so Lvp was open. Part of a circular movement: all units in the circle move.",
+  "F Iri H: Holds. ",
+  "F Nth H: Holds. ",
+  "F Nwg C A Lvp - Edi: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F NAO C A Lvp - Edi: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.7 Swapping with illegal intent 1`] = `
+[
+  "F Ska C A Swe - Nwy: No effect. A Swe wasn't ordered to move to Nwy by convoy.",
+  "F Nwy - Swe: Fails — lost the head-to-head. Attack strength 1. Head-to-head battle with A Swe moving the other way, which defends with strength 1. 1 point of attack isn't more than the defend strength of 1.",
+  "A Swe - Nwy: Fails — lost the head-to-head. Attack strength 1. Head-to-head battle with F Nwy moving the other way, which defends with strength 1. 1 point of attack isn't more than the defend strength of 1.",
+  "F Bot C A Swe - Nwy: Illegal — treated as a hold. This order can't be carried out: this fleet can't be part of a convoy between those provinces. The unit holds instead.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.8 Explicit convoy that isn't there 1`] = `
+[
+  "A Bel - Hol via convoy: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through. It stays in Bel.",
+  "F Nth - Hel: Succeeds. Attack strength 1.",
+  "A Hol - Kie: Succeeds. Attack strength 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.9 Swapped or dislodged? 1`] = `
+[
+  "A Nwy - Swe: Succeeds. Convoyed via Ska. Attack strength 2 (A Nwy + support from F Fin). A Swe moved out, so Swe was open.",
+  "F Ska C A Nwy - Swe: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Fin S A Nwy - Swe: Support given. The support was not cut and counts.",
+  "A Swe - Nwy: Succeeds. Attack strength 1. A Nwy moved out, so Nwy was open.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.10 Swapped or an head-to-head battle? 1`] = `
+[
+  "A Nwy - Swe via convoy: Succeeds. Convoyed via Ska. Attack strength 3 (A Nwy + support from F Den, F Fin). A Swe holds with strength 1. 3 beats hold strength 1. A Swe is dislodged.",
+  "F Den S A Nwy - Swe: Support given. The support was not cut and counts.",
+  "F Fin S A Nwy - Swe: Support given. The support was not cut and counts.",
+  "F Ska C A Nwy - Swe: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Swe - Nwy: Bounced — and dislodged. Attack strength 2 (A Swe + support from F Bar). A Nwy moved out, so Nwy was open. F Nwg also tried to enter Nwy with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces. Dislodged by A Nwy (convoyed).",
+  "F Bar S A Swe - Nwy: Support given. The support was not cut and counts.",
+  "F Nwg - Nwy: Bounced. Attack strength 2 (F Nwg + support from F Nth). A Nwy moved out, so Nwy was open. A Swe also tried to enter Nwy with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F Nth S F Nwg - Nwy: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.11 A convoy to an adjacent province with a paradox 1`] = `
+[
+  "F Nwy S F Nth - Ska: Support given. The support was not cut and counts. A Swe attacked by convoy, but under the rulebook a convoyed army doesn't cut support for an attack on a fleet it needs for its own convoy.",
+  "F Nth - Ska: Succeeds. Attack strength 2 (F Nth + support from F Nwy). F Ska holds with strength 1. 2 beats hold strength 1. F Ska is dislodged.",
+  "A Swe - Nwy: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: Ska). It stays in Swe.",
+  "F Ska C A Swe - Nwy: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Nth.",
+  "F Bar S A Swe - Nwy: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.12 Swapping two units with two convoys 1`] = `
+[
+  "A Lvp - Edi via convoy: Succeeds. Convoyed via NAO → Nwg. Attack strength 1. A Edi moved out, so Edi was open. Part of a circular movement: all units in the circle move.",
+  "F NAO C A Lvp - Edi: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Nwg C A Lvp - Edi: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Edi - Lvp via convoy: Succeeds. Convoyed via Nth → ENG → Iri. Attack strength 1. A Lvp moved out, so Lvp was open. Part of a circular movement: all units in the circle move.",
+  "F Nth C A Edi - Lvp: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F ENG C A Edi - Lvp: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Iri C A Edi - Lvp: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.13 Support cut on attack on itself via convoy 1`] = `
+[
+  "F Adr C A Tri - Ven: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Tri - Ven via convoy: Fails — not strong enough — and dislodged. Convoyed via Adr. Attack strength 1. A Ven holds with strength 1. 1 point of attack isn't more than the hold strength of 1. Dislodged by F Alb.",
+  "A Ven S F Alb - Tri: Support given. The support was not cut and counts.",
+  "F Alb - Tri: Succeeds. Attack strength 2 (F Alb + support from A Ven). A Tri holds with strength 1. 2 beats hold strength 1. A Tri is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.14 Bounce by convoy to adjacent province 1`] = `
+[
+  "A Nwy - Swe: Succeeds. Attack strength 3 (A Nwy + support from F Den, F Fin). A Swe holds with strength 1. 3 beats hold strength 1. A Swe is dislodged.",
+  "F Den S A Nwy - Swe: Support given. The support was not cut and counts.",
+  "F Fin S A Nwy - Swe: Support given. The support was not cut and counts.",
+  "F Nwg - Nwy: Bounced. Attack strength 2 (F Nwg + support from F Nth). A Nwy moved out, so Nwy was open. A Swe also tried to enter Nwy with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces.",
+  "F Nth S F Nwg - Nwy: Support given. The support was not cut and counts.",
+  "F Ska C A Swe - Nwy: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Swe - Nwy via convoy: Bounced — and dislodged. Convoyed via Ska. Attack strength 2 (A Swe + support from F Bar). A Nwy moved out, so Nwy was open. F Nwg also tried to enter Nwy with strength 2. 2 points of attack isn't more than the rival's 2, so the move bounces. Dislodged by A Nwy.",
+  "F Bar S A Swe - Nwy: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.15 Bounce and dislodge with double convoy 1`] = `
+[
+  "F Nth C A Lon - Bel: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Hol S A Lon - Bel: Support given. The support was not cut and counts.",
+  "A Yor - Lon: Bounced. Attack strength 1. A Lon moved out, so Lon was open. A Bel also tried to enter Lon with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "A Lon - Bel via convoy: Succeeds. Convoyed via Nth. Attack strength 2 (A Lon + support from A Hol). A Bel holds with strength 1. 2 beats hold strength 1. A Bel is dislodged.",
+  "F ENG C A Bel - Lon: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Bel - Lon via convoy: Bounced — and dislodged. Convoyed via ENG. Attack strength 1. A Lon moved out, so Lon was open. A Yor also tried to enter Lon with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces. Dislodged by A Lon (convoyed).",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.16 The two unit in one area bug, moving by convoy 1`] = `
+[
+  "A Nwy - Swe: Succeeds. Attack strength 3 (A Nwy + support from A Den, F Bal). A Swe moved out, so Swe was open.",
+  "A Den S A Nwy - Swe: Support given. The support was not cut and counts.",
+  "F Bal S A Nwy - Swe: Support given. The support was not cut and counts.",
+  "F Nth - Nwy: Fails — beaten by a stronger move. Attack strength 1. A Nwy moved out, so Nwy was open. A Swe also tried to enter Nwy with strength 2. 1 point of attack isn't more than the rival's 2, so the move bounces.",
+  "A Swe - Nwy via convoy: Succeeds. Convoyed via Ska. Attack strength 2 (A Swe + support from F Nwg). A Nwy moved out, so Nwy was open. F Nth also tried to enter Nwy with strength 1. 2 beats every rival move into Nwy.",
+  "F Ska C A Swe - Nwy: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Nwg S A Swe - Nwy: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.17 The two unit in one area bug, moving over land 1`] = `
+[
+  "A Nwy - Swe via convoy: Succeeds. Convoyed via Ska. Attack strength 3 (A Nwy + support from A Den, F Bal). A Swe moved out, so Swe was open.",
+  "A Den S A Nwy - Swe: Support given. The support was not cut and counts.",
+  "F Bal S A Nwy - Swe: Support given. The support was not cut and counts.",
+  "F Ska C A Nwy - Swe: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Nth - Nwy: Fails — beaten by a stronger move. Attack strength 1. A Nwy moved out, so Nwy was open. A Swe also tried to enter Nwy with strength 2. 1 point of attack isn't more than the rival's 2, so the move bounces.",
+  "A Swe - Nwy: Succeeds. Attack strength 2 (A Swe + support from F Nwg). A Nwy moved out, so Nwy was open. F Nth also tried to enter Nwy with strength 1. 2 beats every rival move into Nwy.",
+  "F Nwg S A Swe - Nwy: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.18 The two unit in one area bug, with double convoy 1`] = `
+[
+  "F Nth C A Lon - Bel: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Hol S A Lon - Bel: Support given. The support was not cut and counts.",
+  "A Yor - Lon: Fails — beaten by a stronger move. Attack strength 1. A Lon moved out, so Lon was open. A Bel also tried to enter Lon with strength 2. 1 point of attack isn't more than the rival's 2, so the move bounces.",
+  "A Lon - Bel: Succeeds. Convoyed via Nth. Attack strength 3 (A Lon + support from A Hol, A Ruh). A Bel moved out, so Bel was open.",
+  "A Ruh S A Lon - Bel: Support given. The support was not cut and counts.",
+  "F ENG C A Bel - Lon: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Bel - Lon: Succeeds. Convoyed via ENG. Attack strength 2 (A Bel + support from A Wal). A Lon moved out, so Lon was open. A Yor also tried to enter Lon with strength 1. 2 beats every rival move into Lon.",
+  "A Wal S A Bel - Lon: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.19 Swapping with intent of unnecessary convoy 1`] = `
+[
+  "A Mar - Spa: Fails — lost the head-to-head. Attack strength 1. Head-to-head battle with A Spa moving the other way, which defends with strength 1. 1 point of attack isn't more than the defend strength of 1.",
+  "F Wes C A Mar - Spa: Illegal — treated as a hold. This order can't be carried out: this fleet can't be part of a convoy between those provinces. The unit holds instead.",
+  "F Lyo C A Mar - Spa: No effect. A Mar wasn't ordered to move to Spa by convoy.",
+  "A Spa - Mar: Fails — lost the head-to-head. Attack strength 1. Head-to-head battle with A Mar moving the other way, which defends with strength 1. 1 point of attack isn't more than the defend strength of 1.",
+]
+`;
+
+exports[`DATC v3.0 > 6.G.20 Explicit convoy to adjacent province disrupted 1`] = `
+[
+  "F Bre - ENG: Succeeds. Attack strength 2 (F Bre + support from F MAO). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+  "A Pic - Bel via convoy: Fails — convoy disrupted. The army needed a convoy, and no convoy route made it through (fleets: ENG). It stays in Pic.",
+  "A Bur S A Pic - Bel: Support given. The support was not cut and counts.",
+  "F MAO S F Bre - ENG: Support given. The support was not cut and counts.",
+  "F ENG C A Pic - Bel: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Bre.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.1 No supports during retreat 1`] = `
+[
+  "F Tri H: Holds — but dislodged. Dislodged by A Tyr.",
+  "A Ser H: Holds. ",
+  "F Gre H: Holds — but dislodged. Dislodged by F Ion.",
+  "A Ven S A Tyr - Tri: Support given. The support was not cut and counts.",
+  "A Tyr - Tri: Succeeds. Attack strength 2 (A Tyr + support from A Ven). F Tri holds with strength 1. 2 beats hold strength 1. F Tri is dislodged.",
+  "F Ion - Gre: Succeeds. Attack strength 2 (F Ion + support from F Aeg). F Gre holds with strength 1. 2 beats hold strength 1. F Gre is dislodged.",
+  "F Aeg S F Ion - Gre: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.2 No supports from retreating unit 1`] = `
+[
+  "A Lvp - Edi: Succeeds. Attack strength 2 (A Lvp + support from F Yor). F Edi holds with strength 1. 2 beats hold strength 1. F Edi is dislodged.",
+  "F Yor S A Lvp - Edi: Support given. The support was not cut and counts.",
+  "F Nwy H: Holds — but dislodged. Dislodged by A Fin.",
+  "A Kie S A Ruh - Hol: Support given. The support was not cut and counts.",
+  "A Ruh - Hol: Succeeds. Attack strength 2 (A Ruh + support from A Kie). F Hol holds with strength 1. 2 beats hold strength 1. F Hol is dislodged.",
+  "F Edi H: Holds — but dislodged. Dislodged by A Lvp.",
+  "A Swe S A Fin - Nwy: Support given. The support was not cut and counts.",
+  "A Fin - Nwy: Succeeds. Attack strength 2 (A Fin + support from A Swe). F Nwy holds with strength 1. 2 beats hold strength 1. F Nwy is dislodged.",
+  "F Hol H: Holds — but dislodged. Dislodged by A Ruh.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.3 No convoy during retreat 1`] = `
+[
+  "F Nth H: Holds. ",
+  "A Hol H: Holds — but dislodged. Dislodged by A Ruh.",
+  "F Kie S A Ruh - Hol: Support given. The support was not cut and counts.",
+  "A Ruh - Hol: Succeeds. Attack strength 2 (A Ruh + support from F Kie). A Hol holds with strength 1. 2 beats hold strength 1. A Hol is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.4 No other moves during retreat 1`] = `
+[
+  "F Nth H: Holds. ",
+  "A Hol H: Holds — but dislodged. Dislodged by A Ruh.",
+  "F Kie S A Ruh - Hol: Support given. The support was not cut and counts.",
+  "A Ruh - Hol: Succeeds. Attack strength 2 (A Ruh + support from F Kie). A Hol holds with strength 1. 2 beats hold strength 1. A Hol is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.5 A unit may not retreat to the area from which it is attacked 1`] = `
+[
+  "F Con S F Bla - Ank: Support given. The support was not cut and counts.",
+  "F Bla - Ank: Succeeds. Attack strength 2 (F Bla + support from F Con). F Ank holds with strength 1. 2 beats hold strength 1. F Ank is dislodged.",
+  "F Ank H: Holds — but dislodged. Dislodged by F Bla.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.6 Unit may not retreat to a contested area 1`] = `
+[
+  "A Bud S A Tri - Vie: Support given. The support was not cut and counts.",
+  "A Tri - Vie: Succeeds. Attack strength 2 (A Tri + support from A Bud). A Vie holds with strength 1. 2 beats hold strength 1. A Vie is dislodged.",
+  "A Mun - Boh: Bounced. Attack strength 1. A Sil also tried to enter Boh with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "A Sil - Boh: Bounced. Attack strength 1. A Mun also tried to enter Boh with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "A Vie H: Holds — but dislodged. Dislodged by A Tri.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.7 Multiple retreat to same area will disband units 1`] = `
+[
+  "A Bud S A Tri - Vie: Support given. The support was not cut and counts.",
+  "A Tri - Vie: Succeeds. Attack strength 2 (A Tri + support from A Bud). A Vie holds with strength 1. 2 beats hold strength 1. A Vie is dislodged.",
+  "A Mun S A Sil - Boh: Support given. The support was not cut and counts.",
+  "A Sil - Boh: Succeeds. Attack strength 2 (A Sil + support from A Mun). A Boh holds with strength 1. 2 beats hold strength 1. A Boh is dislodged.",
+  "A Vie H: Holds — but dislodged. Dislodged by A Tri.",
+  "A Boh H: Holds — but dislodged. Dislodged by A Sil.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.8 Triple retreat to same area will disband units 1`] = `
+[
+  "A Lvp - Edi: Succeeds. Attack strength 2 (A Lvp + support from F Yor). F Edi holds with strength 1. 2 beats hold strength 1. F Edi is dislodged.",
+  "F Yor S A Lvp - Edi: Support given. The support was not cut and counts.",
+  "F Nwy H: Holds — but dislodged. Dislodged by A Fin.",
+  "A Kie S A Ruh - Hol: Support given. The support was not cut and counts.",
+  "A Ruh - Hol: Succeeds. Attack strength 2 (A Ruh + support from A Kie). F Hol holds with strength 1. 2 beats hold strength 1. F Hol is dislodged.",
+  "F Edi H: Holds — but dislodged. Dislodged by A Lvp.",
+  "A Swe S A Fin - Nwy: Support given. The support was not cut and counts.",
+  "A Fin - Nwy: Succeeds. Attack strength 2 (A Fin + support from A Swe). F Nwy holds with strength 1. 2 beats hold strength 1. F Nwy is dislodged.",
+  "F Hol H: Holds — but dislodged. Dislodged by A Ruh.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.9 Dislodged unit will not make attackers area contested 1`] = `
+[
+  "F Hel - Kie: Succeeds. Attack strength 2 (F Hel + support from F Den). F Kie holds with strength 1. 2 beats hold strength 1. F Kie is dislodged.",
+  "F Den S F Hel - Kie: Support given. The support was not cut and counts.",
+  "A Ber - Pru: Succeeds. Attack strength 2 (A Ber + support from A Sil). Head-to-head battle with A Pru moving the other way, which defends with strength 1. 2 beats defend strength 1.",
+  "F Kie H: Holds — but dislodged. Dislodged by F Hel.",
+  "A Sil S A Ber - Pru: Support given. The support was not cut and counts.",
+  "A Pru - Ber: Fails — lost the head-to-head — and dislodged. Attack strength 1. Head-to-head battle with A Ber moving the other way, which defends with strength 2. 1 point of attack isn't more than the defend strength of 2. Dislodged by A Ber.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.10 Not retreating to attacker does not mean contested 1`] = `
+[
+  "A Kie H: Holds — but dislodged. Dislodged by A Ber.",
+  "A Ber - Kie: Succeeds. Attack strength 2 (A Ber + support from A Mun). A Kie holds with strength 1. 2 beats hold strength 1. A Kie is dislodged.",
+  "A Mun S A Ber - Kie: Support given. The support was not cut and counts.",
+  "A Pru H: Holds — but dislodged. Dislodged by A War.",
+  "A War - Pru: Succeeds. Attack strength 2 (A War + support from A Sil). A Pru holds with strength 1. 2 beats hold strength 1. A Pru is dislodged.",
+  "A Sil S A War - Pru: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.11 Retreat when dislodged by adjacent convoy 1`] = `
+[
+  "A Gas - Mar via convoy: Succeeds. Convoyed via MAO → Wes → Lyo. Attack strength 2 (A Gas + support from A Bur). A Mar holds with strength 1. 2 beats hold strength 1. A Mar is dislodged.",
+  "A Bur S A Gas - Mar: Support given. The support was not cut and counts.",
+  "F MAO C A Gas - Mar: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Wes C A Gas - Mar: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Lyo C A Gas - Mar: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Mar H: Holds — but dislodged. Dislodged by A Gas (convoyed).",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.12 Retreat when dislodged by adjacent convoy while trying to do the same 1`] = `
+[
+  "A Lvp - Edi via convoy: Fails — convoy disrupted — and dislodged. The army needed a convoy, and no convoy route made it through (fleets: Iri, ENG, Nth). It stays in Lvp. Dislodged by A Edi (convoyed).",
+  "F Iri C A Lvp - Edi: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F ENG C A Lvp - Edi: Convoy disrupted — and dislodged. The fleet was dislodged, so it couldn't convoy. Dislodged by F Bre.",
+  "F Nth C A Lvp - Edi: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F Bre - ENG: Succeeds. Attack strength 2 (F Bre + support from F MAO). F ENG holds with strength 1. 2 beats hold strength 1. F ENG is dislodged.",
+  "F MAO S F Bre - ENG: Support given. The support was not cut and counts.",
+  "A Edi - Lvp via convoy: Succeeds. Convoyed via Nwg → NAO. Attack strength 2 (A Edi + support from A Cly). A Lvp holds with strength 1. 2 beats hold strength 1. A Lvp is dislodged.",
+  "F Nwg C A Edi - Lvp: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "F NAO C A Edi - Lvp: Convoyed. The fleet wasn't dislodged, so the convoy went through.",
+  "A Cly S A Edi - Lvp: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.13 No retreat with convoy in movement phase 1`] = `
+[
+  "A Pic H: Holds — but dislodged. Dislodged by A Par.",
+  "F ENG C A Pic - Lon: No effect. A Pic wasn't ordered to move to Lon by convoy.",
+  "A Par - Pic: Succeeds. Attack strength 2 (A Par + support from A Bre). A Pic holds with strength 1. 2 beats hold strength 1. A Pic is dislodged.",
+  "A Bre S A Par - Pic: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.14 No retreat with support in movement phase 1`] = `
+[
+  "A Pic H: Holds — but dislodged. Dislodged by A Par.",
+  "F ENG S A Pic - Bel: No effect. A Pic wasn't ordered to move to Bel, so the support didn't apply.",
+  "A Par - Pic: Succeeds. Attack strength 2 (A Par + support from A Bre). A Pic holds with strength 1. 2 beats hold strength 1. A Pic is dislodged.",
+  "A Bre S A Par - Pic: Support given. The support was not cut and counts.",
+  "A Bur H: Holds — but dislodged. Dislodged by A Mar.",
+  "A Mun S A Mar - Bur: Support given. The support was not cut and counts.",
+  "A Mar - Bur: Succeeds. Attack strength 2 (A Mar + support from A Mun). A Bur holds with strength 1. 2 beats hold strength 1. A Bur is dislodged.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.15 No coastal crawl in retreat 1`] = `
+[
+  "F Por H: Holds — but dislodged. Dislodged by F Spa/sc.",
+  "F Spa/sc - Por: Succeeds. Attack strength 2 (F Spa/sc + support from F MAO). F Por holds with strength 1. 2 beats hold strength 1. F Por is dislodged.",
+  "F MAO S F Spa/sc - Por: Support given. The support was not cut and counts.",
+]
+`;
+
+exports[`DATC v3.0 > 6.H.16 Contested for both coasts 1`] = `
+[
+  "F MAO - Spa/nc: Bounced. Attack strength 1. F Gas also tried to enter Spa with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "F Gas - Spa/nc: Bounced. Attack strength 1. F MAO also tried to enter Spa with strength 1. 1 point of attack isn't more than the rival's 1, so the move bounces.",
+  "F Wes H: Holds — but dislodged. Dislodged by F Tys.",
+  "F Tun S F Tys - Wes: Support given. The support was not cut and counts.",
+  "F Tys - Wes: Succeeds. Attack strength 2 (F Tys + support from F Tun). F Wes holds with strength 1. 2 beats hold strength 1. F Wes is dislodged.",
+]
+`;

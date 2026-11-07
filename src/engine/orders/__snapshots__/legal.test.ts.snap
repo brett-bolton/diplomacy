@@ -1,0 +1,436 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`golden file > matches the locked legal-order list for all 22 units at the 1901 start 1`] = `
+[
+  {
+    "convoys": [],
+    "moves": [
+      "boh",
+      "bud",
+      "gal",
+      "tri",
+      "tyr",
+    ],
+    "supportHolds": [
+      "bud",
+      "tri",
+    ],
+    "supportMoves": [
+      "bud-gal",
+      "bud-tri",
+      "mun-boh",
+      "mun-tyr",
+      "ven-tri",
+      "ven-tyr",
+      "war-gal",
+    ],
+    "unit": "AUS A vie",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "gal",
+      "rum",
+      "ser",
+      "tri",
+      "vie",
+    ],
+    "supportHolds": [
+      "tri",
+      "vie",
+    ],
+    "supportMoves": [
+      "sev-rum",
+      "ven-tri",
+      "vie-gal",
+      "vie-tri",
+      "war-gal",
+    ],
+    "unit": "AUS A bud",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "adr",
+      "alb",
+      "ven",
+    ],
+    "supportHolds": [
+      "ven",
+    ],
+    "supportMoves": [
+      "rom-ven",
+    ],
+    "unit": "AUS F tri",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "eng",
+      "nth",
+      "wal",
+      "yor",
+    ],
+    "supportHolds": [],
+    "supportMoves": [
+      "bre-eng",
+      "edi-nth",
+      "edi-yor",
+      "lvp-wal",
+      "lvp-yor",
+    ],
+    "unit": "ENG F lon",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "cly",
+      "nth",
+      "nwg",
+      "yor",
+    ],
+    "supportHolds": [],
+    "supportMoves": [
+      "lon-nth",
+      "lon-yor",
+      "lvp-cly",
+      "lvp-yor",
+    ],
+    "unit": "ENG F edi",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "cly",
+      "edi",
+      "wal",
+      "yor",
+    ],
+    "supportHolds": [
+      "edi",
+    ],
+    "supportMoves": [
+      "edi-cly",
+      "edi-yor",
+      "lon-wal",
+      "lon-yor",
+    ],
+    "unit": "ENG A lvp",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "eng",
+      "gas",
+      "mao",
+      "pic",
+    ],
+    "supportHolds": [],
+    "supportMoves": [
+      "lon-eng",
+      "mar-gas",
+      "par-gas",
+      "par-pic",
+    ],
+    "unit": "FRA F bre",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "bre",
+      "bur",
+      "gas",
+      "pic",
+    ],
+    "supportHolds": [
+      "bre",
+    ],
+    "supportMoves": [
+      "bre-gas",
+      "bre-pic",
+      "mar-bur",
+      "mar-gas",
+      "mun-bur",
+    ],
+    "unit": "FRA A par",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "bur",
+      "gas",
+      "pie",
+      "spa",
+    ],
+    "supportHolds": [],
+    "supportMoves": [
+      "bre-gas",
+      "mun-bur",
+      "par-bur",
+      "par-gas",
+      "ven-pie",
+    ],
+    "unit": "FRA A mar",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "bal",
+      "ber",
+      "den",
+      "hel",
+      "hol",
+    ],
+    "supportHolds": [
+      "ber",
+    ],
+    "supportMoves": [
+      "mun-ber",
+    ],
+    "unit": "GER F kie",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "kie",
+      "mun",
+      "pru",
+      "sil",
+    ],
+    "supportHolds": [
+      "kie",
+      "mun",
+    ],
+    "supportMoves": [
+      "mun-kie",
+      "mun-sil",
+      "war-pru",
+      "war-sil",
+    ],
+    "unit": "GER A ber",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "ber",
+      "boh",
+      "bur",
+      "kie",
+      "ruh",
+      "sil",
+      "tyr",
+    ],
+    "supportHolds": [
+      "ber",
+      "kie",
+    ],
+    "supportMoves": [
+      "ber-kie",
+      "ber-sil",
+      "kie-ber",
+      "mar-bur",
+      "par-bur",
+      "ven-tyr",
+      "vie-boh",
+      "vie-tyr",
+      "war-sil",
+    ],
+    "unit": "GER A mun",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "apu",
+      "ion",
+      "rom",
+      "tys",
+    ],
+    "supportHolds": [
+      "rom",
+    ],
+    "supportMoves": [
+      "rom-apu",
+      "ven-apu",
+      "ven-rom",
+    ],
+    "unit": "ITA F nap",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "apu",
+      "nap",
+      "tus",
+      "ven",
+    ],
+    "supportHolds": [
+      "nap",
+      "ven",
+    ],
+    "supportMoves": [
+      "nap-apu",
+      "tri-ven",
+      "ven-apu",
+      "ven-tus",
+    ],
+    "unit": "ITA A rom",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "apu",
+      "pie",
+      "rom",
+      "tri",
+      "tus",
+      "tyr",
+    ],
+    "supportHolds": [
+      "rom",
+      "tri",
+    ],
+    "supportMoves": [
+      "bud-tri",
+      "mar-pie",
+      "mun-tyr",
+      "nap-apu",
+      "nap-rom",
+      "rom-apu",
+      "rom-tus",
+      "vie-tri",
+      "vie-tyr",
+    ],
+    "unit": "ITA A ven",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "lvn",
+      "sev",
+      "stp",
+      "ukr",
+      "war",
+    ],
+    "supportHolds": [
+      "sev",
+      "stp",
+      "war",
+    ],
+    "supportMoves": [
+      "stp-lvn",
+      "war-lvn",
+      "war-ukr",
+    ],
+    "unit": "RUS A mos",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "gal",
+      "lvn",
+      "mos",
+      "pru",
+      "sil",
+      "ukr",
+    ],
+    "supportHolds": [
+      "mos",
+    ],
+    "supportMoves": [
+      "ber-pru",
+      "ber-sil",
+      "bud-gal",
+      "mos-lvn",
+      "mos-ukr",
+      "mun-sil",
+      "stp-lvn",
+      "vie-gal",
+    ],
+    "unit": "RUS A war",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "arm",
+      "bla",
+      "rum",
+    ],
+    "supportHolds": [],
+    "supportMoves": [
+      "ank-arm",
+      "ank-bla",
+      "bud-rum",
+      "smy-arm",
+    ],
+    "unit": "RUS F sev",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "bot",
+      "fin",
+      "lvn",
+    ],
+    "supportHolds": [],
+    "supportMoves": [
+      "mos-lvn",
+      "war-lvn",
+    ],
+    "unit": "RUS F stp/sc",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "arm",
+      "bla",
+      "con",
+    ],
+    "supportHolds": [
+      "con",
+    ],
+    "supportMoves": [
+      "sev-arm",
+      "sev-bla",
+      "smy-arm",
+      "smy-con",
+    ],
+    "unit": "TUR F ank",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "ank",
+      "bul",
+      "smy",
+    ],
+    "supportHolds": [
+      "ank",
+      "smy",
+    ],
+    "supportMoves": [
+      "smy-ank",
+    ],
+    "unit": "TUR A con",
+  },
+  {
+    "convoys": [],
+    "moves": [
+      "ank",
+      "arm",
+      "con",
+      "syr",
+    ],
+    "supportHolds": [
+      "ank",
+      "con",
+    ],
+    "supportMoves": [
+      "ank-arm",
+      "ank-con",
+      "con-ank",
+      "sev-arm",
+    ],
+    "unit": "TUR A smy",
+  },
+]
+`;

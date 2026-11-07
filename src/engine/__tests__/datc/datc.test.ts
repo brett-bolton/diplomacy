@@ -3,6 +3,7 @@
 import { describe, expect, it } from "vitest"
 import { adjudicateMovement } from "../../adjudicate/movement"
 import { adjudicateRetreats } from "../../adjudicate/retreat"
+import { explainMovement } from "../../adjudicate/explain"
 import type { MovementOrder, RetreatOrder } from "../../orders"
 import type { Power, ProvinceId, Unit } from "../../types"
 import { locKey } from "../../types"
@@ -75,6 +76,18 @@ function runCase(c: DatcCase) {
   const result = adjudicateMovement(board, ordersFor(board, c.orders))
   const byProv = new Map(result.outcomes.map((o) => [o.unit.location.province, o]))
   const e = c.expect
+
+  // Explanations must agree with the outcome they explain.
+  for (const o of result.outcomes) {
+    const m = o.move
+    if (!m || o.illegal || (m.convoy && !m.convoy.pathOk) || o.paradox) continue
+    const opp = m.opposition.kind === "defend" || m.opposition.occupied ? m.opposition.strength : 0
+    const beatsAll = m.attack > opp && m.prevents.every((p) => m.attack > p.strength)
+    expect(o.success, `strengths for ${o.unit.location.province} disagree with outcome`).toBe(beatsAll && !m.ownUnit)
+  }
+  const explained = explainMovement(result)
+  expect(explained.size).toBe(result.outcomes.length)
+  expect([...explained.values()].map((x) => `${x.notation}: ${x.verdict}. ${x.reasons.join(" ")}`)).toMatchSnapshot()
 
   for (const p of e.succeeds ?? []) {
     expect(byProv.get(p), `no unit at ${p}`).toBeDefined()
