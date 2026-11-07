@@ -4,55 +4,16 @@ import { describe, expect, it } from "vitest"
 import { adjudicateMovement } from "../../adjudicate/movement"
 import { adjudicateRetreats } from "../../adjudicate/retreat"
 import { explainMovement } from "../../adjudicate/explain"
-import type { MovementOrder, RetreatOrder } from "../../orders"
+import { adjudicateAdjustments, type CivilDisorderRule } from "../../adjudicate/adjust"
+import type { AdjustmentOrder } from "../../orders"
+import { parseOwnership } from "./notation"
+import type { RetreatOrder } from "../../orders"
 import type { Power, ProvinceId, Unit } from "../../types"
 import { locKey } from "../../types"
 import { ALL_CASES } from "./cases"
 import type { DatcCase } from "./format"
-import { parseBlock, POWER_BY_NAME, type ParsedLine } from "./notation"
-
-export function buildBoard(c: DatcCase): Unit[] {
-  const units: Unit[] = []
-  const taken = new Set<ProvinceId>()
-  for (const line of [...parseBlock(c.units), ...parseBlock(c.orders)]) {
-    if (!line.at || !line.unitType || line.action === "build" || line.action === "waive") continue
-    if (taken.has(line.at.province)) continue
-    taken.add(line.at.province)
-    units.push({ power: line.power, type: line.unitType, location: line.at })
-  }
-  return units
-}
-
-function toMovementOrder(line: ParsedLine): MovementOrder | null {
-  const unit = line.at!.province
-  switch (line.action) {
-    case "hold":
-      return { kind: "hold", unit }
-    case "move":
-      return { kind: "move", unit, to: line.to, viaConvoy: line.viaConvoy }
-    case "support-hold":
-      return { kind: "support-hold", unit, target: line.target.province }
-    case "support-move":
-      return { kind: "support-move", unit, from: line.from.province, to: line.to.province, toCoast: line.to.coast }
-    case "convoy":
-      return { kind: "convoy", unit, from: line.from.province, to: line.to.province }
-    default:
-      return null
-  }
-}
-
-/** Orders a power gave to its own units. Orders to other powers' units are ignored. */
-export function ordersFor(board: Unit[], block: string | undefined): Map<ProvinceId, MovementOrder> {
-  const orders = new Map<ProvinceId, MovementOrder>()
-  for (const line of parseBlock(block)) {
-    if (!line.at) continue
-    const unit = board.find((u) => u.location.province === line.at!.province)
-    if (!unit || unit.power !== line.power) continue
-    const o = toMovementOrder(line)
-    if (o) orders.set(unit.location.province, o)
-  }
-  return orders
-}
+import { parseBlock, POWER_BY_NAME } from "./notation"
+import { buildBoard, ordersFor } from "./harness"
 
 function retreatOrdersFor(dislodged: Unit[], block: string | undefined): Map<ProvinceId, RetreatOrder> {
   const orders = new Map<ProvinceId, RetreatOrder>()
@@ -116,11 +77,37 @@ function runCase(c: DatcCase) {
   }
 }
 
+function adjustmentOrders(block: string | undefined): Map<Power, AdjustmentOrder[]> {
+  const orders = new Map<Power, AdjustmentOrder[]>()
+  for (const line of parseBlock(block)) {
+    const list = orders.get(line.power) ?? []
+    if (line.action === "build") list.push({ kind: "build", unitType: line.unitType!, at: line.at! })
+    else if (line.action === "remove" || line.action === "disband") list.push({ kind: "remove", unit: line.at!.province })
+    else if (line.action === "waive") list.push({ kind: "waive" })
+    orders.set(line.power, list)
+  }
+  return orders
+}
+
+function runAdjustmentCase(c: DatcCase, rule: CivilDisorderRule) {
+  const board = buildBoard({ ...c, orders: "" })
+  const owners = parseOwnership(c.ownership)
+  const result = adjudicateAdjustments(board, owners, adjustmentOrders(c.orders), { rule })
+  const expected = rule === "rulebook-2000" ? (c.expect.finalRulebook2000 ?? c.expect.final) : c.expect.final
+  for (const [name, list] of Object.entries(expected ?? {})) {
+    const power = POWER_BY_NAME[name.toLowerCase()] as Power
+    const got = result.units.filter((u) => u.power === power).map(unitStr).sort()
+    expect(got, `${name} units at the end`).toEqual([...list].sort())
+  }
+}
+
 describe("DATC v3.0", () => {
   for (const c of ALL_CASES) {
     const name = `${c.id} ${c.title}`
     if (c.skip) it.skip(`${name} (${c.skip})`, () => {})
-    else if (c.phase === "adjustment") it.todo(`${name} (adjustment phase)`)
-    else it(name, () => runCase(c))
+    else if (c.phase === "adjustment") {
+      it(`${name} (DATC / 2023 rule)`, () => runAdjustmentCase(c, "rulebook-2023"))
+      it(`${name} (2008 rulebook)`, () => runAdjustmentCase(c, "rulebook-2000"))
+    } else it(name, () => runCase(c))
   }
 })

@@ -53,4 +53,9 @@ export interface DatcExpect {
    * Powers not listed are not checked.
    */
   final?: Record<string, string[]>
+  /**
+   * Where the 2008 (= 2000) rulebook's civil-disorder rule gives a different
+   * board than DATC's preferred 2023 rule: the board under the 2008 rulebook.
+   */
+  finalRulebook2000?: Record<string, string[]>
 }

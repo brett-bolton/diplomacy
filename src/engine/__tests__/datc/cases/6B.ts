@@ -152,7 +152,7 @@ Russia: St Petersburg`,
     orders: `
 Russia:
 Build F St Petersburg`,
-    expect: { fails: ["stp"] },
+    expect: { final: { Russia: [] } },
     note: "4.B.7: build fails when coast is not specified",
   },
   {

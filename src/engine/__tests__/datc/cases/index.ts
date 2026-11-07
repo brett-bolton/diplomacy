@@ -7,5 +7,7 @@ import { cases as E } from "./6E"
 import { cases as F } from "./6F"
 import { cases as G } from "./6G"
 import { cases as H } from "./6H"
+import { cases as I } from "./6I"
+import { cases as J } from "./6J"
 
-export const ALL_CASES: DatcCase[] = [...A, ...B, ...C, ...D, ...E, ...F, ...G, ...H]
+export const ALL_CASES: DatcCase[] = [...A, ...B, ...C, ...D, ...E, ...F, ...G, ...H, ...I, ...J]
