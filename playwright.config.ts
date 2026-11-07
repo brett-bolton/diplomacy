@@ -8,13 +8,15 @@ export default defineConfig({
   fullyParallel: false,
   workers: 1,
   reporter: [["list"]],
-  use: { baseURL: "http://localhost:3300", trace: "retain-on-failure" },
-  webServer: {
-    command: "npx next dev -p 3300",
-    url: "http://localhost:3300",
-    reuseExistingServer: true,
-    timeout: 120_000,
-  },
+  use: { baseURL: process.env.BASE_URL ?? "http://localhost:3300", trace: "retain-on-failure" },
+  webServer: process.env.BASE_URL
+    ? undefined
+    : {
+        command: "npx next dev -p 3300",
+        url: "http://localhost:3300",
+        reuseExistingServer: true,
+        timeout: 120_000,
+      },
   projects: [
     { name: "iphone-se", use: { ...devices["iPhone SE"] } },
     { name: "iphone-15", use: { ...devices["iPhone 15"] } },
