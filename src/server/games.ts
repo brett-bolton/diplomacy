@@ -38,6 +38,8 @@ export class GameError extends Error {
   }
 }
 
+const TIMES_UP = "Time's up — orders are closed."
+
 const fail = (status: number, message: string): never => {
   throw new GameError(status, message)
 }
@@ -347,7 +349,7 @@ async function checklistForGame(tx: Tx, game: GameRow, phase: PhaseRow): Promise
 export async function saveDraft(db: Db, code: string, creds: Credentials, power: Power, orders: AnyOrder[]): Promise<void> {
   await db.transaction(async (tx) => {
     const game = await loadGame(tx, code)
-    await expireIfDue(tx, game)
+    if (await expireIfDue(tx, game)) fail(409, TIMES_UP)
     const me = await identify(tx, game, creds)
     const phase = await lockCurrentPhase(tx, game)
     const state = phase.state as GameState
@@ -371,7 +373,7 @@ export async function saveDraft(db: Db, code: string, creds: Credentials, power:
 export async function submitOrders(db: Db, code: string, creds: Credentials, requestId: string): Promise<{ adjudicated: boolean }> {
   return db.transaction(async (tx) => {
     const game = await loadGame(tx, code)
-    await expireIfDue(tx, game)
+    if (await expireIfDue(tx, game)) fail(409, TIMES_UP)
     const me = await identify(tx, game, creds)
     const phase = await lockCurrentPhase(tx, game)
     const state = phase.state as GameState
@@ -413,7 +415,7 @@ function assertCanOrder(game: GameRow, phase: PhaseRow, state: GameState, me: Id
   if (!me.participant || me.participant.seat == null) fail(403, "Only players can give orders.")
   const mine = seatPowers(state)[me.participant!.seat!] ?? []
   if (!mine.includes(power)) fail(403, "That isn't your power.")
-  if (phase.deadlineAt && now() >= phase.deadlineAt) fail(409, "Time's up — orders are closed.")
+  if (phase.deadlineAt && now() >= phase.deadlineAt) fail(409, TIMES_UP)
 }
 
 function validateOrders(state: GameState, power: Power, orders: AnyOrder[]) {
@@ -452,7 +454,7 @@ function validateOrders(state: GameState, power: Power, orders: AnyOrder[]) {
 export async function setTimer(db: Db, code: string, creds: Credentials, minutes: number): Promise<void> {
   await db.transaction(async (tx) => {
     const game = await loadGame(tx, code)
-    await expireIfDue(tx, game)
+    if (await expireIfDue(tx, game)) fail(409, "The timer ran out and the phase has been adjudicated. Set a new timer for the next phase if you want one.")
     const me = await identify(tx, game, creds)
     if (!me.participant?.isGameMaster) fail(403, "Only the game master can set the timer.")
     const phase = await lockCurrentPhase(tx, game)
@@ -469,7 +471,7 @@ export async function setTimer(db: Db, code: string, creds: Credentials, minutes
 export async function extendTimer(db: Db, code: string, creds: Credentials): Promise<void> {
   await db.transaction(async (tx) => {
     const game = await loadGame(tx, code)
-    await expireIfDue(tx, game)
+    if (await expireIfDue(tx, game)) fail(409, "The timer has already run out.")
     const me = await identify(tx, game, creds)
     if (!me.participant?.isGameMaster) fail(403, "Only the game master can extend the timer.")
     const phase = await lockCurrentPhase(tx, game)
@@ -482,13 +484,15 @@ export async function extendTimer(db: Db, code: string, creds: Credentials): Pro
   })
 }
 
-/** If the current phase's timer has run out, adjudicate it with whatever was submitted. */
-async function expireIfDue(tx: Tx, game: GameRow): Promise<void> {
-  if (game.status !== "active" || !game.currentPhaseId) return
+/** If the current phase's timer has run out, adjudicate it with whatever was submitted. Returns true if it did. */
+async function expireIfDue(tx: Tx, game: GameRow): Promise<boolean> {
+  if (game.status !== "active" || !game.currentPhaseId) return false
   const phase = await lockCurrentPhase(tx, game)
   if (phase.status === "open" && phase.deadlineAt && now() >= phase.deadlineAt) {
     await adjudicate(tx, game, phase, "timer_expired")
+    return true
   }
+  return false
 }
 
 // ---------------------------------------------------------------------------

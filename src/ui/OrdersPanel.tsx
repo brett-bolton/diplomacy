@@ -630,19 +630,30 @@ function AdjustmentEditor({ view, power, orders, onChange }: { view: GameView; p
   const state = view.state
   const owners = useMemo(() => new Map(Object.entries(state.owners)) as Map<ProvinceId, Power>, [state.owners])
   const delta = view.powers.find((p) => p.power === power)?.adjustment ?? 0
+  const [fullHint, setFullHint] = useState(false)
 
   if (delta > 0) {
     const sites = buildSites(power, owners, state.units)
     const builds = orders.filter((o): o is Extract<AdjustmentOrder, { kind: "build" }> => o.kind === "build")
     const atSite = (p: ProvinceId) => builds.find((b) => b.at.province === p)
+    const used = builds.length >= delta
     const choose = (p: ProvinceId, choice: { unitType: "A" | "F"; coast?: Coast } | null) => {
-      const rest = builds.filter((b) => b.at.province !== p)
+      setFullHint(false)
+      let rest = builds.filter((b) => b.at.province !== p)
       if (!choice) return onChange(rest)
-      if (rest.length >= delta) return
+      if (rest.length >= delta) {
+        // One build: tapping another center moves it there. Several: ask to clear one first.
+        if (delta === 1) rest = []
+        else return setFullHint(true)
+      }
       onChange([...rest, { kind: "build", unitType: choice.unitType, at: choice.coast ? { province: p, coast: choice.coast } : { province: p } }])
     }
+    const planned: Unit[] = builds.map((b) => ({ power, type: b.unitType, location: b.at }))
     return (
       <div className="space-y-3">
+        <Card className="overflow-hidden">
+          <Board units={[...state.units, ...planned]} owners={state.owners} highlight={{ targets: sites }} />
+        </Card>
         <Card className="p-4">
           <p className="font-medium">
             You may build {delta} unit{delta > 1 ? "s" : ""}
@@ -650,28 +661,40 @@ function AdjustmentEditor({ view, power, orders, onChange }: { view: GameView; p
           <p className="text-sm text-text-2">
             {builds.length} of {Math.min(delta, sites.length)} chosen. Builds you don&apos;t use are waived.
           </p>
+          {fullHint && used ? (
+            <p className="mt-1 text-sm text-warning" role="status">
+              You&apos;ve used all {delta} builds. Set one to Nothing first to build somewhere else.
+            </p>
+          ) : null}
         </Card>
         {sites.length === 0 ? <p className="text-sm text-text-2">All your home centers are occupied or lost, so you can&apos;t build this year.</p> : null}
         {sites.map((p) => {
           const b = atSite(p)
           const pr = PROVINCES[p]
-          const fleetOptions: { label: string; coast?: Coast }[] = pr.kind === "coastal" ? (pr.coasts ? pr.coasts.map((c) => ({ label: `Fleet (${c === "nc" ? "north" : c === "sc" ? "south" : "east"} coast)`, coast: c })) : [{ label: "Fleet" }]) : []
-          const full = builds.length >= delta && !b
+          const fleetOptions: { label: string; coast?: Coast }[] =
+            pr.kind === "coastal"
+              ? pr.coasts
+                ? pr.coasts.map((c) => ({ label: `Fleet (${c === "nc" ? "north" : c === "sc" ? "south" : "east"} coast)`, coast: c }))
+                : [{ label: "Fleet" }]
+              : []
           return (
-            <Card key={p} className="p-4">
-              <p className="mb-2 font-medium">{pr.name}</p>
-              <div className="grid grid-cols-2 gap-2">
+            <Card key={p} className="p-4" tone={b ? "success" : "default"}>
+              <p className="mb-2 font-medium">
+                {pr.name}
+                {pr.kind === "inland" ? <span className="ml-2 text-xs font-normal text-text-3">inland — armies only</span> : null}
+              </p>
+              <div className="grid grid-cols-2 gap-2" role="group" aria-label={`Build in ${pr.name}`}>
                 <Choice selected={!b} onClick={() => choose(p, null)}>
                   Nothing
                 </Choice>
-                <Choice selected={b?.unitType === "A"} onClick={() => !full && choose(p, { unitType: "A" })}>
+                <Choice selected={b?.unitType === "A"} onClick={() => choose(p, { unitType: "A" })}>
                   Army
                 </Choice>
                 {fleetOptions.map((f) => (
                   <Choice
                     key={f.label}
                     selected={b?.unitType === "F" && (b.at.coast ?? undefined) === f.coast}
-                    onClick={() => !full && isValidUnitLocation("F", f.coast ? { province: p, coast: f.coast } : { province: p }) && choose(p, { unitType: "F", coast: f.coast })}
+                    onClick={() => isValidUnitLocation("F", f.coast ? { province: p, coast: f.coast } : { province: p }) && choose(p, { unitType: "F", coast: f.coast })}
                   >
                     {f.label}
                   </Choice>
@@ -687,8 +710,11 @@ function AdjustmentEditor({ view, power, orders, onChange }: { view: GameView; p
   const need = -delta
   const removing = new Set(orders.filter((o) => o.kind === "remove").map((o) => (o as { unit: ProvinceId }).unit))
   const toggle = (p: ProvinceId) => {
+    setFullHint(false)
     if (removing.has(p)) onChange(orders.filter((o) => !(o.kind === "remove" && o.unit === p)))
     else if (removing.size < need) onChange([...orders, { kind: "remove", unit: p }])
+    else if (need === 1) onChange([{ kind: "remove", unit: p }])
+    else setFullHint(true)
   }
   return (
     <div className="space-y-3">
@@ -699,6 +725,11 @@ function AdjustmentEditor({ view, power, orders, onChange }: { view: GameView; p
         <p className="text-sm text-text-2">
           {removing.size} of {need} chosen. Any you don&apos;t choose are picked by the civil-disorder rule (farthest from home first).
         </p>
+        {fullHint ? (
+          <p className="mt-1 text-sm text-warning" role="status">
+            You&apos;ve already chosen {need}. Tap one again to keep it instead.
+          </p>
+        ) : null}
       </Card>
       <div className="grid gap-2">
         {state.units
