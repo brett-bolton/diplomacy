@@ -87,7 +87,8 @@ export function checklist(record: PhaseRecord): ChecklistStep[] {
 
   if (record.adjustments) {
     for (const u of record.adjustments.removed) {
-      const civil = record.adjustments.civilDisorder.includes(u)
+      // Match by place, not identity: stored records come back from JSON as fresh objects.
+      const civil = record.adjustments.civilDisorder.some((c) => c.location.province === u.location.province)
       steps.push({ kind: "remove", at: u.location.province, aside: false, text: `Remove ${POWER_NAMES[u.power]}'s ${unitText(u.type, u.location)}${civil ? " (removed by the civil-disorder rule)" : ""}` })
     }
     for (const u of record.adjustments.built) {

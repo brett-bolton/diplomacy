@@ -398,3 +398,178 @@ describe("Winter builds (reinforcement round)", () => {
     expect(spring.state.units.filter((u) => u.power === "RUS")).toHaveLength(4)
   })
 })
+
+describe("Winter disbands (reinforcement round)", () => {
+  /**
+   * 7-player game from a custom Fall 1901 position. Russia owns its four home
+   * centers but has five units (six for two disbands), none on another supply
+   * center, so after an all-hold Fall it must disband. Turkey has one army in
+   * Constantinople and one center, so it has nothing to do in Winter.
+   * Under the default civil-disorder rule (farthest from home first, fleets
+   * before armies, then alphabetical) Russia's order is F Bot, A Lvn, A Pru, A Ukr.
+   */
+  async function russiaWithDisbands(count: 1 | 2) {
+    const parts = SEVEN.map((name, seat) => ({ name, seat, isGameMaster: seat === 0 }))
+    const { code, creatorToken } = await createGame(db, {
+      name: "Disbands",
+      playerCount: 7,
+      participants: parts,
+      custom: {
+        year: 1901,
+        season: "fall",
+        units: [
+          { power: "RUS", type: "A", location: { province: "war" } },
+          { power: "RUS", type: "F", location: { province: "sev" } },
+          { power: "RUS", type: "F", location: { province: "bot" } },
+          { power: "RUS", type: "A", location: { province: "ukr" } },
+          { power: "RUS", type: "A", location: { province: "lvn" } },
+          ...(count === 2 ? [{ power: "RUS" as const, type: "A" as const, location: { province: "pru" } }] : []),
+          { power: "TUR", type: "A", location: { province: "con" } },
+        ],
+        owners: { mos: "RUS", stp: "RUS", war: "RUS", sev: "RUS", con: "TUR" },
+      },
+    })
+    const creator = { creatorToken }
+    const v = await getView(db, code, creator)
+    const join = async (name: string) => {
+      const t = await issueJoinToken(db, code, creator, v.participants.find((p) => p.name === name)!.id, false)
+      return { deviceToken: (await joinGame(db, code, t)).deviceToken }
+    }
+    const russia = await join("Russia")
+    const turkey = await join("Turkey")
+    await submitOrders(db, code, turkey, "fall") // all hold; nothing changes hands
+    await submitOrders(db, code, russia, "fall")
+    const winter = await getView(db, code, russia)
+    return { code, russia, turkey, winter, creator }
+  }
+
+  const russianUnits = (view: Awaited<ReturnType<typeof getView>>) =>
+    view.state.units
+      .filter((u) => u.power === "RUS")
+      .map((u) => `${u.type} ${u.location.province}`)
+      .sort()
+
+  it("makes Russia disband when it has more units than supply centers", async () => {
+    const one = await russiaWithDisbands(1)
+    expect(one.winter.phase.label).toBe("Winter 1901 · Builds")
+    const rus = one.winter.powers.find((p) => p.power === "RUS")!
+    expect(rus.supplyCenters).toBe(4)
+    expect(rus.adjustment).toBe(-1)
+    expect(rus.required).toBe(true)
+    // Nobody else has anything to do this Winter.
+    expect(one.winter.powers.filter((p) => p.required).map((p) => p.power)).toEqual(["RUS"])
+
+    const two = await russiaWithDisbands(2)
+    expect(two.winter.powers.find((p) => p.power === "RUS")!.adjustment).toBe(-2)
+  })
+
+  it("removes exactly the unit the player picks", async () => {
+    const { code, russia } = await russiaWithDisbands(1)
+    await saveDraft(db, code, russia, "RUS", [{ kind: "remove", unit: "lvn" }])
+    // Changing your mind before locking in: disband Ukraine instead.
+    await saveDraft(db, code, russia, "RUS", [{ kind: "remove", unit: "ukr" }])
+    await submitOrders(db, code, russia, "winter")
+    const spring = await getView(db, code, russia)
+    expect(spring.phase.label).toBe("Spring 1902 · Orders")
+    expect(russianUnits(spring)).toEqual(["A lvn", "A war", "F bot", "F sev"])
+    expect(spring.checklist?.steps.map((s) => s.text)).toEqual(["Remove Russia's A Ukr"])
+    const hist = await getHistory(db, code, russia)
+    const winter = hist.find((h) => h.label === "Winter 1901 · Builds")!
+    expect(winter.record?.adjustments?.removed).toEqual([{ power: "RUS", type: "A", location: { province: "ukr" } }])
+    expect(winter.record?.adjustments?.civilDisorder).toEqual([])
+  })
+
+  it("removes both units when two disbands are due", async () => {
+    const { code, russia } = await russiaWithDisbands(2)
+    await saveDraft(db, code, russia, "RUS", [
+      { kind: "remove", unit: "war" },
+      { kind: "remove", unit: "sev" },
+    ])
+    await submitOrders(db, code, russia, "winter")
+    const spring = await getView(db, code, russia)
+    expect(russianUnits(spring)).toEqual(["A lvn", "A pru", "A ukr", "F bot"])
+    expect(spring.checklist?.steps.map((s) => s.text)).toEqual(["Remove Russia's A War", "Remove Russia's F Sev"])
+  })
+
+  it("rejects disbanding a unit that isn't yours, twice, or too many", async () => {
+    const { code, russia, turkey } = await russiaWithDisbands(1)
+    await expectError(saveDraft(db, code, russia, "RUS", [{ kind: "remove", unit: "con" }]), 400, /isn't yours/) // Turkey's army
+    await expectError(saveDraft(db, code, russia, "RUS", [{ kind: "remove", unit: "mos" }]), 400, /isn't yours/) // empty home center
+    await expectError(saveDraft(db, code, russia, "RUS", [{ kind: "build", unitType: "A", at: { province: "mos" } }]), 400, /disbands, not builds/)
+    // Russia can't give Turkey's orders, Turkey has nothing to disband, and Turkey can't disband for Russia.
+    await expectError(saveDraft(db, code, russia, "TUR", [{ kind: "remove", unit: "con" }]), 403)
+    await expectError(saveDraft(db, code, turkey, "TUR", [{ kind: "remove", unit: "con" }]), 400, /No builds or disbands/)
+    await expectError(saveDraft(db, code, turkey, "RUS", [{ kind: "remove", unit: "ukr" }]), 403)
+    await expectError(
+      saveDraft(db, code, russia, "RUS", [
+        { kind: "remove", unit: "ukr" },
+        { kind: "remove", unit: "lvn" },
+      ]),
+      400,
+      /exactly 1/,
+    )
+
+    const two = await russiaWithDisbands(2)
+    await expectError(
+      saveDraft(db, two.code, two.russia, "RUS", [
+        { kind: "remove", unit: "ukr" },
+        { kind: "remove", unit: "ukr" },
+      ]),
+      400,
+      /already being disbanded/,
+    )
+    await expectError(
+      saveDraft(db, two.code, two.russia, "RUS", [
+        { kind: "remove", unit: "ukr" },
+        { kind: "remove", unit: "lvn" },
+        { kind: "remove", unit: "pru" },
+      ]),
+      400,
+      /exactly 2/,
+    )
+
+    // None of the rejected drafts stuck: locking in leaves it to the civil-disorder rule.
+    await submitOrders(db, code, russia, "winter")
+    const spring = await getView(db, code, russia)
+    expect(russianUnits(spring)).toEqual(["A lvn", "A ukr", "A war", "F sev"])
+    expect(spring.state.units).toContainEqual({ power: "TUR", type: "A", location: { province: "con" } })
+  })
+
+  it("removes the rest by the civil-disorder rule when too few are chosen", async () => {
+    const { code, russia } = await russiaWithDisbands(2)
+    await saveDraft(db, code, russia, "RUS", [{ kind: "remove", unit: "ukr" }])
+    await submitOrders(db, code, russia, "winter")
+    const spring = await getView(db, code, russia)
+    expect(russianUnits(spring)).toEqual(["A lvn", "A pru", "A war", "F sev"])
+    expect(spring.checklist?.steps.map((s) => s.text)).toEqual([
+      "Remove Russia's A Ukr",
+      "Remove Russia's F Bot (removed by the civil-disorder rule)",
+    ])
+    const hist = await getHistory(db, code, russia)
+    const winter = hist.find((h) => h.label === "Winter 1901 · Builds")!
+    expect(winter.record?.adjustments?.civilDisorder).toEqual([{ power: "RUS", type: "F", location: { province: "bot" } }])
+  })
+
+  it("removes every unit by the civil-disorder rule when none are chosen", async () => {
+    const { code, russia } = await russiaWithDisbands(1)
+    await submitOrders(db, code, russia, "winter")
+    const spring = await getView(db, code, russia)
+    expect(russianUnits(spring)).toEqual(["A lvn", "A ukr", "A war", "F sev"])
+    expect(spring.checklist?.steps.map((s) => s.text)).toEqual(["Remove Russia's F Bot (removed by the civil-disorder rule)"])
+  })
+
+  it("ignores disbands that weren't locked in when the timer runs out", async () => {
+    const { code, russia, creator } = await russiaWithDisbands(1)
+    const v = await getView(db, code, creator)
+    const t = await issueJoinToken(db, code, creator, v.participants.find((p) => p.isGameMaster)!.id, false)
+    const gm = { deviceToken: (await joinGame(db, code, t)).deviceToken }
+    await saveDraft(db, code, russia, "RUS", [{ kind: "remove", unit: "war" }])
+    await setTimer(db, code, gm, 5)
+    tick(5 * 60_000)
+    await expectError(saveDraft(db, code, russia, "RUS", []), 409, /Time's up/)
+    const spring = await getView(db, code, russia)
+    expect(spring.phase.label).toBe("Spring 1902 · Orders")
+    // The civil-disorder rule chose instead: the Warsaw army survives.
+    expect(russianUnits(spring)).toEqual(["A lvn", "A ukr", "A war", "F sev"])
+  })
+})
