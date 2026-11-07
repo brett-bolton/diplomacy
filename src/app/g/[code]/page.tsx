@@ -10,7 +10,7 @@ import { HistoryView } from "@/ui/HistoryView"
 import { useGame } from "@/ui/hooks"
 import { Card } from "@/ui/kit"
 import { OrdersPanel } from "@/ui/OrdersPanel"
-import { CenterCounter, PhaseHeader } from "@/ui/StatusBar"
+import { PhaseHeader } from "@/ui/StatusBar"
 import { powerName } from "@/ui/text"
 
 type Tab = "orders" | "board" | "history" | "gm"
@@ -83,7 +83,6 @@ function GamePage() {
         ) : null}
 
         {current !== "history" ? <ChecklistBanner view={view} code={code} onChanged={refresh} /> : null}
-        {current !== "history" ? <CenterCounter view={view} compact={current === "orders"} /> : null}
 
         {current === "orders" ? <OrdersPanel key={view.phase.id} view={view} code={code} onChanged={refresh} /> : null}
         {current === "board" ? (

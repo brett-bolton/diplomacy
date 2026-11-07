@@ -25,8 +25,9 @@ export function Button({
   )
 }
 
-export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
-  return <div className={`rounded-2xl border border-line bg-surface ${className}`}>{children}</div>
+export function Card({ children, className = "", tone = "default" }: { children: ReactNode; className?: string; tone?: "default" | "success" }) {
+  const toneCls = tone === "success" ? "border-success bg-success-soft" : "border-line bg-surface"
+  return <div className={`rounded-2xl border transition-colors ${toneCls} ${className}`}>{children}</div>
 }
 
 export function Pill({ children, tone = "neutral" }: { children: ReactNode; tone?: "neutral" | "accent" | "warning" | "danger" | "success" }) {

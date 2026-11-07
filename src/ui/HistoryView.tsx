@@ -8,7 +8,6 @@ import { Board } from "@/map/Board"
 import type { GameView, HistoryEntry } from "@/server/games"
 import { api } from "./api"
 import { Button, Card, Pill } from "./kit"
-import { CenterCounter } from "./StatusBar"
 import { orderNotation, orderPlain, placeName, powerName, unitLabel } from "./text"
 
 export function HistoryView({ view, code }: { view: GameView; code: string }) {
@@ -90,22 +89,9 @@ export function HistoryView({ view, code }: { view: GameView; code: string }) {
         )}
       </Card>
 
-      <CenterCounter view={{ ...view, powers: countsFor(view, show === "after" && after ? after : entry.state) }} compact />
-
       {entry.record ? <Results entry={entry} /> : <Card className="p-4 text-sm text-text-2">Orders for this phase are hidden until everyone has submitted.</Card>}
     </div>
   )
-}
-
-function countsFor(view: GameView, state: HistoryEntry["state"]): GameView["powers"] {
-  return view.powers.map((p) => ({
-    ...p,
-    supplyCenters: Object.values(state.owners).filter((o) => o === p.power).length,
-    units: state.units.filter((u) => u.power === p.power).length,
-    adjustment: null,
-    required: false,
-    submitted: false,
-  }))
 }
 
 function drawnFor(entry: HistoryEntry): DrawnOrder[] {

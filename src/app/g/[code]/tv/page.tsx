@@ -6,7 +6,7 @@ import { Board } from "@/map/Board"
 import { ChecklistBanner } from "@/ui/ChecklistBanner"
 import { useGame } from "@/ui/hooks"
 import { Card } from "@/ui/kit"
-import { CenterCounter, PhaseHeader } from "@/ui/StatusBar"
+import { PhaseHeader } from "@/ui/StatusBar"
 
 /** Read-only table / TV view: board, timer, centers, checklist. */
 function TvPage() {
@@ -23,7 +23,6 @@ function TvPage() {
         <Card className="p-4">
           <PhaseHeader view={view} serverNow={serverNow} onExpire={onExpire} />
         </Card>
-        <CenterCounter view={view} />
         <ChecklistBanner view={view} code={code} onChanged={refresh} />
       </div>
     </main>

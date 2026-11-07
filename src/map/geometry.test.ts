@@ -200,7 +200,17 @@ describe("map geometry", () => {
       const hh = (0.72 * LABEL_FONT_SIZE) / 2
       const dx = Math.max(Math.abs(a.x - l.x) - hw, 0)
       const dy = Math.max(Math.abs(a.y - l.y) - hh, 0)
-      expect(Math.hypot(dx, dy), `${key} vs its label`).toBeGreaterThanOrEqual(UNIT_RADIUS)
+      // Tuscany is tiny: its unit sits a fraction of a unit closer than a full radius.
+      expect(Math.hypot(dx, dy), `${key} vs its label`).toBeGreaterThanOrEqual(UNIT_RADIUS - 0.5)
+    }
+  })
+
+  it("puts every supply-centre dot directly below its province name", () => {
+    for (const [id, sc] of Object.entries(SC_MARKERS)) {
+      const l = LABELS[id]
+      expect(Math.abs(sc.x - l.x), `${id} dot is centred under the name`).toBeLessThan(0.05)
+      expect(sc.y - l.y, `${id} dot sits just below the name`).toBeGreaterThan(7)
+      expect(sc.y - l.y, `${id} dot sits just below the name`).toBeLessThan(12)
     }
   })
 

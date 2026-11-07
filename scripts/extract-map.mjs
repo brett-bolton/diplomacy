@@ -39,7 +39,6 @@ const LABEL_FONT_SIZE = 9 // province label font size (labels drawn centred)
 const DISLODGED_OFFSET = { x: 8, y: -8 }
 
 // Source label font metrics (Liberation Sans 13px, i.e. Arial metrics).
-const SOURCE_FONT_SIZE = 13
 const CAP_HEIGHT = 0.716 // em
 // Arial advance widths per 1000 em for the characters that appear in labels.
 const ADVANCE = {
@@ -66,11 +65,8 @@ const COAST_SEAS = {
   "bul/sc": ["aeg"],
 }
 
-/** Label centres moved by hand (the source spot crowds the province). */
-const LABEL_OVERRIDES = {
-  // Centred in the source, which leaves no room for a unit beside it.
-  bel: { x: 203, y: 324 },
-}
+/** Label centres placed by hand (normally computed: visual centre of the province). */
+const LABEL_OVERRIDES = {}
 
 /** Unit anchors placed by hand; everything else is computed. */
 const ANCHOR_OVERRIDES = {
@@ -472,34 +468,67 @@ function main() {
   const scExtra = Object.keys(scMarkers).filter((id) => !engineById.get(id).sc)
   if (scMissing.length || scExtra.length) throw new Error(`SC mismatch: missing ${scMissing} extra ${scExtra}`)
 
-  // Labels: centre of the source text box (13px, baseline at the transform).
+  // Labels and supply-centre markers are laid out together: the name sits at
+  // the province's visual centre with the marker directly below it, and the
+  // name + marker block is placed where it has the most room (the "pole of
+  // inaccessibility" of the province for that block). The source's own label
+  // and marker positions are only used to check which provinces have centres.
+  const LABEL_H = CAP_HEIGHT * LABEL_FONT_SIZE
+  const SC_GAP = 2.5
+  const scDrop = LABEL_H / 2 + SC_GAP + SC_RADIUS // label centre -> marker centre
   const labels = {}
-  for (const [id, g] of geo) {
-    const { x, y, id: text } = g.label
-    labels[id] = LABEL_OVERRIDES[id] ?? {
-      x: x + textWidth(text, SOURCE_FONT_SIZE) / 2,
-      y: y - (CAP_HEIGHT * SOURCE_FONT_SIZE) / 2,
+  const blockSamples = (id, cx, cy, hasSc) => {
+    const w = textWidth(engineById.get(id).abbr, LABEL_FONT_SIZE) + 2
+    const ly = hasSc ? cy - scDrop / 2 : cy
+    const pts = []
+    for (let i = 0; i <= 4; i++) {
+      const x = cx - w / 2 + (w * i) / 4
+      pts.push([x, ly - LABEL_H / 2 - 1], [x, ly + LABEL_H / 2 + 1])
     }
-    if (!pointInPolys(g.polys, labels[id].x, labels[id].y)) notes.push(`${id}: label centre falls outside the province`)
+    if (hasSc) {
+      const sy = ly + scDrop
+      for (let k = 0; k < 8; k++) {
+        const a = (k * Math.PI) / 4
+        pts.push([cx + Math.cos(a) * (SC_RADIUS + 1), sy + Math.sin(a) * (SC_RADIUS + 1)])
+      }
+    }
+    return pts
+  }
+  /** Signed room at a point: distance to the outline / water inlets inside the province, negative outside. */
+  const signedRoom = (g, x, y) => {
+    const inside = pointInPolys(g.polys, x, y) && !g.water.some((w) => pointInPolys(w, x, y))
+    let r = edgeDist(g.polys, x, y)
+    for (const w of g.water) r = Math.min(r, edgeDist(w, x, y))
+    return inside ? r : -r
+  }
+  for (const [id, g] of geo) {
+    const hasSc = engineById.get(id).sc
+    if (LABEL_OVERRIDES[id]) {
+      labels[id] = { ...LABEL_OVERRIDES[id] }
+    } else {
+      const b = bbox(g.polys)
+      const score = (x, y) => Math.min(...blockSamples(id, x, y, hasSc).map(([sx, sy]) => signedRoom(g, sx, sy)))
+      let best = null
+      const tryAt = (x, y) => {
+        if (!pointInPolys(g.polys, x, y)) return
+        const sc = score(x, y)
+        if (!best || sc > best.s) best = { x, y, s: sc }
+      }
+      for (let x = b.x0; x <= b.x1; x += 2) for (let y = b.y0; y <= b.y1; y += 2) tryAt(x, y)
+      for (const step of [0.5, 0.125]) {
+        const c = { ...best }
+        for (let x = c.x - 4 * step; x <= c.x + 4 * step; x += step) for (let y = c.y - 4 * step; y <= c.y + 4 * step; y += step) tryAt(x, y)
+      }
+      labels[id] = { x: best.x, y: hasSc ? best.y - scDrop / 2 : best.y }
+      if (best.s < 0.5) notes.push(`${id}: name${hasSc ? " and centre marker" : ""} only just fit (${best.s.toFixed(1)} units of room)`)
+    }
+    if (hasSc) scMarkers[id] = { x: labels[id].x, y: labels[id].y + scDrop }
   }
   /** Box a drawn label occupies (engine abbreviation at LABEL_FONT_SIZE), padded. */
   const labelRect = (id) => {
     const w = textWidth(engineById.get(id).abbr, LABEL_FONT_SIZE) + 2
-    const h = CAP_HEIGHT * LABEL_FONT_SIZE + 3
+    const h = LABEL_H + 3
     return { x0: labels[id].x - w / 2, x1: labels[id].x + w / 2, y0: labels[id].y - h / 2, y1: labels[id].y + h / 2 }
-  }
-  // Labels are drawn smaller than in the source; nudge any that now touch
-  // their supply-centre marker straight away from it.
-  for (const id of Object.keys(scMarkers)) {
-    if (LABEL_OVERRIDES[id]) continue
-    const sc = scMarkers[id], l = labels[id]
-    const len = Math.hypot(l.x - sc.x, l.y - sc.y) || 1
-    const ux = (l.x - sc.x) / len, uy = (l.y - sc.y) / len
-    let moved = 0
-    while (rectDist(sc.x, sc.y, labelRect(id)) < SC_RADIUS + 0.5 && moved < 8) {
-      l.x += ux * 0.25; l.y += uy * 0.25; moved += 0.25
-    }
-    if (moved) notes.push(`${id}: label nudged ${moved.toFixed(1)} away from its supply-centre marker`)
   }
 
   // Unit anchors.
@@ -515,9 +544,12 @@ function main() {
     const g = geo.get(id)
     let r = edgeDist(g.polys, x, y)
     for (const w of g.water) r = Math.min(r, pointInPolys(w, x, y) ? 0 : edgeDist(w, x, y))
-    r = Math.min(r, rectDist(x, y, labelRect(id)))
+    // Fleets are wider than they are tall, so keep a little extra space between
+    // a unit that may be a fleet and the province's name and supply-centre dot.
+    const extra = engineById.get(id).kind === "inland" ? 0 : 1.5
+    r = Math.min(r, rectDist(x, y, labelRect(id)) - extra)
     const sc = scMarkers[id]
-    if (sc) r = Math.min(r, Math.hypot(x - sc.x, y - sc.y) - SC_RADIUS - 1)
+    if (sc) r = Math.min(r, Math.hypot(x - sc.x, y - sc.y) - SC_RADIUS - 1 - extra)
     return r
   }
 
@@ -555,7 +587,7 @@ function main() {
     if (ANCHOR_OVERRIDES[id]) a = { ...ANCHOR_OVERRIDES[id] }
     else {
       const l = labels[id]
-      a = search(id, (x, y) => Math.min(room(id, x, y), want) - 0.03 * Math.hypot(x - l.x, y - l.y))
+      a = search(id, (x, y) => Math.min(room(id, x, y), want) - 0.08 * Math.hypot(x - l.x, y - l.y))
     }
     anchors[id] = { x: a.x, y: a.y }
     placed.push({ ...anchors[id], key: id })
@@ -575,6 +607,20 @@ function main() {
     }
     anchors[k] = { x: a.x, y: a.y }
     placed.push({ ...anchors[k], key: k })
+  }
+
+  // Debug aid: DEBUG_ROOM=nap,lon prints the roomiest spots near a province's name.
+  for (const id of (process.env.DEBUG_ROOM ?? "").split(",").filter(Boolean)) {
+    const l = labels[id]
+    const pts = []
+    for (let x = l.x - 25; x <= l.x + 25; x += 1) for (let y = l.y - 25; y <= l.y + 30; y += 1) {
+      const g = geo.get(id)
+      if (!pointInPolys(g.polys, x, y)) continue
+      pts.push({ x, y, r: room(id, x, y), d: Math.hypot(x - l.x, y - l.y) })
+    }
+    pts.sort((a, b) => b.r - a.r)
+    console.log(`  debug ${id}: label ${fmt(l.x)},${fmt(l.y)} anchor ${fmt(anchors[id].x)},${fmt(anchors[id].y)}`)
+    for (const p of pts.filter((p) => p.r >= 4.5).sort((a, b) => a.d - b.d).slice(0, 6)) console.log(`    ${p.x.toFixed(1)},${p.y.toFixed(1)} room ${p.r.toFixed(1)} dist ${p.d.toFixed(1)}`)
   }
 
   for (const [k, a] of Object.entries(anchors)) {
