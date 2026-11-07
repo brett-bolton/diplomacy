@@ -339,17 +339,20 @@ function MovementEditor({ view, power, orders, onChange }: { view: GameView; pow
                 setSelected(u.location.province)
                 setStep({ kind: "action" })
               }}
-              className="flex min-h-14 w-full items-center justify-between gap-3 rounded-xl border border-line bg-surface px-4 py-2.5 text-left hover:bg-surface-2"
+              className={`flex min-h-14 w-full items-center justify-between gap-3 rounded-xl border px-4 py-2.5 text-left transition-colors ${
+                o ? "border-success bg-success-soft" : "border-line bg-surface hover:bg-surface-2"
+              }`}
+              aria-label={`${unitLabel(u)}: ${o ? orderPlain(o, units) : "not set, will hold"}`}
             >
               <span className="min-w-0">
                 <span className="block font-medium">{unitLabel(u)}</span>
-                <span className="block truncate text-sm text-text-2">
+                <span className={`block truncate text-sm ${o ? "font-medium text-success" : "text-text-2"}`}>
                   {o ? orderPlain(o, units) : "Not set — will hold"}
                 </span>
                 {!o ? <span className="block truncate text-xs text-text-3">Can reach: {reachText(opt)}</span> : null}
               </span>
-              <span className="text-text-3" aria-hidden>
-                ›
+              <span className={o ? "text-lg text-success" : "text-text-3"} aria-hidden>
+                {o ? "✓" : "›"}
               </span>
             </button>
           )
@@ -584,8 +587,15 @@ function RetreatEditor({ view, power, orders, onChange }: { view: GameView; powe
         const here = d.unit.location.province
         const o = orders.find((x) => x.unit === here)
         return (
-          <Card key={here} className="p-4">
-            <p className="font-medium">{unitName(d.unit)}</p>
+          <Card key={here} className="p-4" tone={o ? "success" : "default"}>
+            <p className="font-medium">
+              {unitName(d.unit)}
+              {o ? (
+                <span className="ml-2 text-success" aria-label="order set">
+                  ✓
+                </span>
+              ) : null}
+            </p>
             <p className="mb-3 text-sm text-text-2">
               {d.retreatOptions.length ? "Choose where it retreats, or disband it." : "No retreat possible — it will be disbanded."}
             </p>
