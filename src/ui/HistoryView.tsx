@@ -83,9 +83,9 @@ export function HistoryView({ view, code }: { view: GameView; code: string }) {
 
       <Card className="overflow-hidden">
         {show === "before" || !after ? (
-          <Board units={entry.state.units} owners={entry.state.owners} dislodged={entry.state.dislodged.map((d) => d.unit)} orders={drawnFor(entry)} />
+          <Board key={`${entry.id}-orders`} units={entry.state.units} owners={entry.state.owners} dislodged={entry.state.dislodged.map((d) => d.unit)} orders={drawnFor(entry)} />
         ) : (
-          <Board units={after.units} owners={after.owners} dislodged={after.dislodged.map((d) => d.unit)} />
+          <Board key={`${entry.id}-result`} units={after.units} owners={after.owners} dislodged={after.dislodged.map((d) => d.unit)} />
         )}
       </Card>
 

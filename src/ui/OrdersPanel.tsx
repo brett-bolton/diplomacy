@@ -318,7 +318,6 @@ function MovementEditor({ view, power, orders, onChange }: { view: GameView; pow
             targets,
           }}
           onProvinceClick={onMapClick}
-          focus={mine.map((u) => u.location.province)}
         />
       </Card>
 
