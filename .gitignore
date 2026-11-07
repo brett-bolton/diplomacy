@@ -40,3 +40,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .neon
+
+# playwright
+/test-results/
+/playwright-report/
+/blob-report/

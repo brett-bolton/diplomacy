@@ -241,7 +241,7 @@ export async function getView(db: Db, code: string, creds: Credentials): Promise
     const owners = new Map(Object.entries(state.owners)) as Map<ProvinceId, Power>
     const myPowers = me.participant?.seat != null ? seats[me.participant.seat] ?? [] : []
 
-    const powers: PowerStatus[] = POWERS.filter((p) => !(game.playerCount === 2 && p === "ITA" && state.italyControllerSeat === undefined) || true).map((power) => {
+    const powers: PowerStatus[] = POWERS.map((power) => {
       const seat = seats.findIndex((s) => s.includes(power))
       const player = seat >= 0 ? parts.find((p) => p.seat === seat) : undefined
       const set = sets.find((s) => s.power === power)
@@ -272,8 +272,8 @@ export async function getView(db: Db, code: string, creds: Credentials): Promise
       .orderBy(asc(phases.seq))
       .then((rows) => rows.slice(-1))
     if (last && !last.boardSyncedAt) {
-      const steps = checklistForGame(tx, game, last)
-      list = { phaseId: last.id, label: phaseLabel(last.state as GameState), steps: await steps, ticks: last.checklistTicks, synced: false }
+      const steps = await checklistForGame(tx, game, last)
+      list = { phaseId: last.id, label: phaseLabel(last.state as GameState), steps, ticks: last.checklistTicks, synced: false }
       if (list.steps.length === 0) list = null
     }
 
