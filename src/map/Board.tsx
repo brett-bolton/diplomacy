@@ -8,7 +8,7 @@ import { PROVINCES } from "../engine/map/standard"
 import type { Power, ProvinceId, Unit } from "../engine/types"
 import { locKey } from "../engine/types"
 import { POWER_COLORS, POWER_TINTS, TINT_OPACITY } from "./colors"
-import { DECOR_PATHS, DISLODGED_OFFSET, LABELS, PROVINCE_PATHS, SC_MARKERS, SC_RADIUS, UNIT_ANCHORS, UNIT_RADIUS, VIEWBOX } from "./geometry"
+import { DECOR_PATHS, DISLODGED_OFFSET, LABELS, LABEL_FONT_SIZE, PROVINCE_PATHS, SC_MARKERS, SC_RADIUS, UNIT_ANCHORS, UNIT_RADIUS, VIEWBOX } from "./geometry"
 
 export type DrawnOrder = {
   power: Power
@@ -155,7 +155,6 @@ export function Board({ units, owners, dislodged = [], orders = [], highlight, o
     onProvinceClick?.(p)
   }
 
-  const scaleFactor = box.w / FULL.w // labels/units shrink a little less when zoomed in
   const ids = Object.keys(PROVINCE_PATHS)
 
   return (
@@ -215,7 +214,7 @@ export function Board({ units, owners, dislodged = [], orders = [], highlight, o
             const l = LABELS[id]
             if (!l) return null
             return (
-              <text key={id} x={l.x} y={l.y} fontSize={Math.max(6, 8 * Math.sqrt(scaleFactor))} fill="var(--map-label)" fontWeight={500} textAnchor="middle" dominantBaseline="central">
+              <text key={id} x={l.x} y={l.y} fontSize={LABEL_FONT_SIZE} fill="var(--map-label)" fontWeight={500} textAnchor="middle" dominantBaseline="central">
                 {PROVINCES[id].abbr}
               </text>
             )
@@ -304,7 +303,7 @@ function UnitGlyph({ unit, at }: { unit: Unit; at: { x: number; y: number } }) {
         <circle cx={at.x} cy={at.y} r={r} fill={c.fill} stroke={c.stroke} strokeWidth={1.1} />
       ) : (
         <path
-          d={`M${at.x - r * 1.35},${at.y - r * 0.55} h${r * 2.7} l${-r * 0.45},${r * 1.25} h${-r * 1.8} z`}
+          d={`M${at.x - r * 1.2},${at.y - r * 0.6} h${r * 2.4} l${-r * 0.4},${r * 1.25} h${-r * 1.6} z`}
           fill={c.fill}
           stroke={c.stroke}
           strokeWidth={1.1}
