@@ -1,26 +1,116 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --bg: #f6f4ef;
+  --surface: #ffffff;
+  --surface-2: #efece4;
+  --text: #1d1c1a;
+  --text-2: #5d5a53;
+  --text-3: #8b877e;
+  --border: #dcd7cb;
+  --border-strong: #bdb6a6;
+  --accent: #2f5d8a;
+  --accent-text: #ffffff;
+  --accent-soft: #e3ecf5;
+  --danger: #b3261e;
+  --danger-soft: #fbe9e7;
+  --warning: #9a6200;
+  --warning-soft: #fdf1d8;
+  --success: #2e7d32;
+  --success-soft: #e6f2e6;
+  --map-land: #f3ead2;
+  --map-sea: #c7dcee;
+  --map-line: #7d7360;
+  --map-label: #4a4337;
+  --map-sc: #ffffff;
+  --map-impassable: #d2cbbb;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #15161a;
+    --surface: #1f2026;
+    --surface-2: #292a31;
+    --text: #ecebe7;
+    --text-2: #b4b1a9;
+    --text-3: #85827b;
+    --border: #393a42;
+    --border-strong: #52535c;
+    --accent: #7fb0e0;
+    --accent-text: #0d1b29;
+    --accent-soft: #22303f;
+    --danger: #f2b8b5;
+    --danger-soft: #3c1d1b;
+    --warning: #f0c35b;
+    --warning-soft: #3a2f14;
+    --success: #9ad29c;
+    --success-soft: #1e3320;
+    --map-land: #3b3729;
+    --map-sea: #1f3346;
+    --map-line: #8f8670;
+    --map-label: #d9d1bd;
+    --map-sc: #e8e4d8;
+    --map-impassable: #4a4639;
+    color-scheme: dark;
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* iOS: never zoom on focus. */
+input,
+select,
+textarea {
+  font-size: 16px;
+}
+
+.safe-top {
+  padding-top: max(env(safe-area-inset-top), 0px);
+}
+.safe-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 12px);
+}
+
+@keyframes flash {
+  from {
+    background: var(--accent-soft);
+  }
+  to {
+    background: transparent;
+  }
+}
+.flash {
+  animation: flash 1.2s ease-out;
 }

@@ -2,8 +2,11 @@
 // these lists) and validates every order the server receives.
 
 import { minimalConvoyRoutes, seaChain } from "../convoy"
-import { ARMY_ADJ, PROVINCES, canReach, isSea, neighbors } from "../map/standard"
-import type { MovementOrder } from "../orders"
+import { ARMY_ADJ, PROVINCES, canReach, isSea, isValidUnitLocation, neighbors } from "../map/standard"
+import type { DislodgedUnit } from "../adjudicate/movement"
+import { matchRetreat } from "../adjudicate/retreat"
+import { adjustmentDelta, buildSites, type Ownership } from "../adjudicate/adjust"
+import type { AdjustmentOrder, MovementOrder, RetreatOrder } from "../orders"
 import type { Location, Power, ProvinceId, Unit } from "../types"
 import { locKey } from "../types"
 
@@ -133,4 +136,46 @@ export function validateMovementOrder(units: Unit[], power: Power, order: Moveme
         ? { ok: true }
         : { ok: false, reason: "That convoy isn't possible." }
   }
+}
+
+// --- Retreat and adjustment validation ------------------------------------
+
+
+export function validateRetreatOrder(dislodged: DislodgedUnit[], power: Power, order: RetreatOrder): ValidationResult {
+  const d = dislodged.find((x) => x.unit.location.province === order.unit)
+  if (!d) return { ok: false, reason: "That unit doesn't need to retreat." }
+  if (d.unit.power !== power) return { ok: false, reason: "That unit belongs to another power." }
+  if (order.kind === "disband") return { ok: true }
+  return matchRetreat(d, order.to) ? { ok: true } : { ok: false, reason: "That unit can't retreat there." }
+}
+
+/** Validate a power's complete list of Winter orders. */
+export function validateAdjustmentOrders(units: Unit[], owners: Ownership, power: Power, orders: AdjustmentOrder[]): ValidationResult {
+  const delta = adjustmentDelta(power, owners, units)
+  if (delta === 0 && orders.length) return { ok: false, reason: "No builds or disbands this Winter." }
+  if (delta > 0) {
+    if (orders.length > delta) return { ok: false, reason: `You may build at most ${delta}.` }
+    const sites = buildSites(power, owners, units)
+    const used = new Set<ProvinceId>()
+    for (const o of orders) {
+      if (o.kind === "waive") continue
+      if (o.kind !== "build") return { ok: false, reason: "You have builds, not disbands." }
+      if (!sites.includes(o.at.province)) return { ok: false, reason: "You can only build in an empty home center you own." }
+      if (used.has(o.at.province)) return { ok: false, reason: "Only one build per center." }
+      if (!isValidUnitLocation(o.unitType, o.at)) {
+        return { ok: false, reason: o.unitType === "F" && !o.at.coast && o.at.province === "stp" ? "Choose a coast for the fleet." : "That unit can't be built there." }
+      }
+      used.add(o.at.province)
+    }
+    return { ok: true }
+  }
+  if (orders.length > -delta) return { ok: false, reason: `You must disband exactly ${-delta}.` }
+  const used = new Set<ProvinceId>()
+  for (const o of orders) {
+    if (o.kind !== "remove") return { ok: false, reason: "You have disbands, not builds." }
+    if (!units.some((u) => u.power === power && u.location.province === o.unit)) return { ok: false, reason: "That unit isn't yours." }
+    if (used.has(o.unit)) return { ok: false, reason: "That unit is already being disbanded." }
+    used.add(o.unit)
+  }
+  return { ok: true }
 }
